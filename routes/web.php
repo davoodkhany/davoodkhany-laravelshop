@@ -45,5 +45,7 @@ Route::get('auth/github/callback/', 'Auth\SocialController@callbackGithub');
 
 Route::get('profile', 'ProfileController@index');
 
-Route::get('profile/twofactor', 'ProfileController@manegerTwoFactor');
+Route::get('profile/twofactor', 'ProfileController@manegeTwoFactor');
+
+Route::post('profile/twofactor', 'ProfileController@postManageTwoFactor')->name('posttwofactor');
 
