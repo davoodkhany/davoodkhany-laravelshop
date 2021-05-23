@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,7 +12,7 @@
 |
 */
 
-use Illuminate\Support\Facades\Auth;
+
 
 Route::get('/', function () {
 
@@ -19,7 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -31,3 +32,18 @@ Route::get('auth/google/callback/', 'Auth\SocialController@callbackGoogle');
 
 Route::get('auth/github', 'Auth\SocialController@redirectGithub')->name('auth.git');
 Route::get('auth/github/callback/', 'Auth\SocialController@callbackGithub');
+
+
+
+// Route::get('test', function (){
+
+//     dd('test');
+
+
+// })->middleware(['auth', 'password.confirm']);
+
+
+Route::get('profile', 'ProfileController@index');
+
+Route::get('profile/twofactor', 'ProfileController@manegerTwoFactor');
+
