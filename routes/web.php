@@ -43,9 +43,14 @@ Route::get('auth/github/callback/', 'Auth\SocialController@callbackGithub');
 // })->middleware(['auth', 'password.confirm']);
 
 
-Route::get('profile', 'ProfileController@index');
+Route::middleware('auth')->group(function () {
 
-Route::get('profile/twofactor', 'ProfileController@manegeTwoFactor');
+    Route::get('profile', 'ProfileController@index');
 
-Route::post('profile/twofactor', 'ProfileController@postManageTwoFactor')->name('posttwofactor');
+    Route::get('profile/twofactor', 'ProfileController@manegeTwoFactor');
+
+    Route::post('profile/twofactor', 'ProfileController@postManageTwoFactor')->name('posttwofactor');
+
+});
+
 
