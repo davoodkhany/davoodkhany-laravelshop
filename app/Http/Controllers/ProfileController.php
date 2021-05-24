@@ -21,8 +21,6 @@ class ProfileController extends Controller
             'phone' => 'required_unless:type,off'
         ]);
 
-        return $data;
-
     }
 
 }

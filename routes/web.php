@@ -35,12 +35,6 @@ Route::get('auth/github/callback/', 'Auth\SocialController@callbackGithub');
 
 
 
-// Route::get('test', function (){
-
-//     dd('test');
-
-
-// })->middleware(['auth', 'password.confirm']);
 
 
 Route::middleware('auth')->group(function () {
