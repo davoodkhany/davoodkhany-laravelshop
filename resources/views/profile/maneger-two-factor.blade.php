@@ -8,14 +8,15 @@
             <div class="form-group">
                 <label for="">type</label>
                 <select class="form-control" name="type">
-                    <option value="off">Off</option>
-                    <option value="sms">Sms</option>
+                    @foreach(config('twofactorauth.types') as $key => $value)
+                    <option value = "{{ $key }}">{{ $value }} </option>
+                    @endforeach
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="">Phone</label>
-                <input class="form-control" type="text" name="phone" value="{{ old('phone') }}">
+                <input class="form-control" type="text" name="phone" value="{{ old('phone') ?? (auth()->user()->phone) }}">
                 @error('phone')
                     <p class="badge badge-danger">{{ $message }}</p>
                 @enderror
