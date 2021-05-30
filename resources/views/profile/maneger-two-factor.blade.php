@@ -8,9 +8,8 @@
             <div class="form-group">
                 <label for="">type</label>
                 <select class="form-control" name="type">
-                    @foreach(config('twofactorauth.types') as $key => $value)
-                    <option value = "{{ $key }}">{{ $value }} </option>
-                    @endforeach
+                        <option value="off">Disabled</option>
+                        <option value="sms">SMS</option>
                 </select>
             </div>
 

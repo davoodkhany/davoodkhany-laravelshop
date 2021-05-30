@@ -1,22 +1,15 @@
 <?php
 
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
-
 Route::get('/', function () {
 
-    alert()->success('welome','message');
+    auth()->user()->activecode()->create(
+        [
+            'code' => 11111,
+            'expire_at' => now()->addMinutes(10)
+        ]
+    );
+
     return view('welcome');
 });
 
@@ -39,11 +32,16 @@ Route::get('auth/github/callback/', 'Auth\SocialController@callbackGithub');
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('profile', 'ProfileController@index');
+    Route::get('/profile', 'ProfileController@index');
 
-    Route::get('profile/twofactor', 'ProfileController@manegeTwoFactor');
+    Route::get('/profile/twofactor', 'ProfileController@manegeTwoFactor');
 
-    Route::post('profile/twofactor', 'ProfileController@postManageTwoFactor')->name('posttwofactor');
+    Route::post('/profile/twofactor', 'ProfileController@postManageTwoFactor')->name('posttwofactor');
+
+
+    Route::get('/profile/twofacor/phoneverify', 'ProfileController@phoneVerify')->name('phoneverify.2f.auth');
+    Route::post('/profile/twofacor/phoneverify', 'ProfileController@postVerify');
+
 
 });
 
