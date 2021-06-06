@@ -7,7 +7,7 @@
             @csrf
             <div class="form-group">
                 <label for="">token</label>
-                <input class="form-control @error('token') is-invalid @enderror" type="text" name="token" ">
+                <input class="form-control @error('token') is-invalid @enderror" type="text" name="token">
 
                 @error('token')
                     <p class="invalid-feedback">{{ $message }}</p>

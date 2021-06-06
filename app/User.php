@@ -39,6 +39,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
 
     public function activecode(){
+
         return $this->hasMany(ActiveCode::class);
+        
     }
 }

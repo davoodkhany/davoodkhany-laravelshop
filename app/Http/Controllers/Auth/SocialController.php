@@ -31,12 +31,15 @@ class SocialController extends Controller
                     'email' => $Googleuser->email,
                     'password' => bcrypt(\Str::random(16))
                 ]);
+                $newuser->markEmailAsVerified();
                 Auth::loginUsingId($user->id);
+
                 return redirect('/');
             }
         }
          catch (\Exception $e) {
-            return $e;
+            alert()->error('ورود با گوگل موفق نبود.', 'شما ارور دارید')->persistent('بسیار خوب');
+            return redirect('/login');
         }
 
     }
@@ -53,24 +56,30 @@ class SocialController extends Controller
     public function callbackGithub()
     {
 
-        $githubuser = Socialite::driver('github')->user();
+        try {
+            $githubuser = Socialite::driver('github')->user();
 
-        $user = User::where('email', $githubuser->email)->first();
+            $user = User::where('email', $githubuser->email)->first();
 
-        if($user){
-            Auth::loginUsingId($user->id);
-            return redirect('/');
-        }
-        else{
+            if($user){
+                Auth::loginUsingId($user->id);
+                return redirect('/');
+            }
+            else{
 
-           $newuser =  User::create([
-                'name' => $githubuser->name,
-                'email' => $githubuser->email,
-                'password' => bcrypt(\Str::random(16)),
-            ]);
+               $newuser =  User::create([
+                    'name' => $githubuser->name,
+                    'email' => $githubuser->email,
+                    'password' => bcrypt(\Str::random(16)),
+                ]);
+                $newuser->markEmailAsVerified();
+                Auth::loginUsingId($newuser->id);
+                return redirect('/');
+            }
+        } catch (\Exception $e) {
 
-            Auth::loginUsingId($newuser->id);
-            return redirect('/');
+            alert()->error('ورود با گوگل موفق نبود.', 'شما ارور دارید')->persistent('بسیار خوب');
+            return redirect('/login');
         }
 
     }
