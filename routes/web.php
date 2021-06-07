@@ -19,9 +19,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 
+Route::get('auth/token', 'Auth\AuthTokenController@getToken')->name('2fa.token');
+Route::post('auth/token', 'Auth\AuthTokenController@postToken');
+
+
 Route::get('auth/google', 'Auth\SocialController@redirectGoogle')->name('auth.google');
 
 Route::get('auth/google/callback/', 'Auth\SocialController@callbackGoogle');
+
 
 Route::get('auth/github', 'Auth\SocialController@redirectGithub')->name('auth.git');
 Route::get('auth/github/callback/', 'Auth\SocialController@callbackGithub');
