@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\ActiveCode;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -39,8 +40,11 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-    protected function authenticated(Request $request, $user)
+
+    protected function authenticated(Request $request, User $user)
     {
+
+
         if($user->two_factor_auth !== "off"){
             auth()->Logout();
 
@@ -49,8 +53,13 @@ class LoginController extends Controller
                 'using_sms' => false,
                 'remember' => $request->has('remember')
             ]);
+            $code = ActiveCode::generateCode($user);
 
-            if( $user->two_factor_auth == 'sms'){
+            // !! TODO Send Sms
+            $request->session()->push('auth.using_sms', true);
+
+
+            if($user->two_factor_auth == 'sms'){
 
                 $code = ActiveCode::generateCode($user);
 
@@ -58,9 +67,11 @@ class LoginController extends Controller
                 $request->session()->push('auth.using_sms', true);
             }
 
+
             return redirect(route('2fa.token'));
 
         }
+
 
         return false;
     }

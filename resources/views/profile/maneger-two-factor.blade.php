@@ -8,7 +8,7 @@
             <div class="form-group">
                 <label for="">type</label>
                 <select class="form-control" name="type">
-                        <option value="off">Disabled</option>
+                        <option value="off" >Disabled</option>
                         <option value="sms">SMS</option>
                 </select>
             </div>
