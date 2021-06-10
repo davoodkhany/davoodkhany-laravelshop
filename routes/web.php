@@ -45,9 +45,8 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/profile/twofacor/phoneverify', 'ProfileController@phoneVerify')->name('phoneverify.2f.auth');
+
     Route::post('/profile/twofacor/phoneverify', 'ProfileController@postVerify');
-
-
 });
 
 

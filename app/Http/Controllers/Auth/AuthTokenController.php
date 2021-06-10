@@ -14,7 +14,6 @@ class AuthTokenController extends Controller
             return redirect('/');
         }
 
-
         return view('auth.token');
 
     }
