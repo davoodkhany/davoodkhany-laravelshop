@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+;
 
 class LoginController extends Controller
 {
@@ -22,7 +23,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers , TowFactorAuthenticate;
 
     /**
      * Where to redirect users after login.
@@ -43,36 +44,31 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, User $user)
     {
-
-
-        if($user->two_factor_auth !== "off"){
-            auth()->Logout();
-
-            $request->session()->flash('auth', [
-                'user_id' => $user->id,
-                'using_sms' => false,
-                'remember' => $request->has('remember')
-            ]);
-            $code = ActiveCode::generateCode($user);
-
-            // !! TODO Send Sms
-            $request->session()->push('auth.using_sms', true);
-
-
-            if($user->two_factor_auth == 'sms'){
-
-                $code = ActiveCode::generateCode($user);
-
-                // !! TODO Send Sms
-                $request->session()->push('auth.using_sms', true);
-            }
-
-
-            return redirect(route('2fa.token'));
-
+        if($user->tow_factor_auth=='sms'){
+            return $this->logedin($request, $user);
         }
-
-
         return false;
+
     }
+
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+            'g-recaptcha-response' => 'required'
+        ]);
+    }
+
+
+    public function login(Request $request)
+    {
+
+        
+
+    }
+
+
+
 }

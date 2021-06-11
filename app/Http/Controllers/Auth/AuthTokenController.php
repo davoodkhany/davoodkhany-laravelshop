@@ -32,15 +32,12 @@ class AuthTokenController extends Controller
         }
 
         $user = User::findOrFail($request->session()->get('auth.user_id'));
-       
-
 
         $status = ActiveCode::verifyCode($request->token,$user);
 
         if( ! $status){
             return redirect(route('login'));
         }
-
 
         if(auth()->loginUsingId($user->id, $request->session()->get('auth.remember'))){
 

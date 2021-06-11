@@ -10,32 +10,37 @@ use Laravel\Socialite\Facades\Socialite;
 class SocialController extends Controller
 {
 
+    use TowFactorAuthenticate;
     // Google login
     public function redirectGoogle(){
         return Socialite::driver('google')->redirect();
     }
-    public function callbackGoogle(){
+    public function callbackGoogle(Request $request){
 
         try {
             $Googleuser=Socialite::driver('google')->user();
             $user=User::where('email',$Googleuser->email)->first();
-            if($user){
 
-               Auth::loginUsingId($user->id);
-               return redirect('/');
-
-            }else{
-
-                $newuser=User::create([
+            if (! $user) {
+                $user = User::create([
                     'name' => $Googleuser->name,
                     'email' => $Googleuser->email,
                     'password' => bcrypt(\Str::random(16))
                 ]);
-                $newuser->markEmailAsVerified();
-                Auth::loginUsingId($user->id);
+                $user->markEmailAsVerified();
 
+                Auth::loginUsingId($user->id);
                 return redirect('/');
             }
+
+                $user->markEmailAsVerified();
+
+                Auth::loginUsingId($user->id);
+
+                return $this->logedin($request,$user) ? : redirect('/');
+
+
+
         }
          catch (\Exception $e) {
             alert()->error('ورود با گوگل موفق نبود.', 'شما ارور دارید')->persistent('بسیار خوب');
@@ -61,7 +66,7 @@ class SocialController extends Controller
 
             $user = User::where('email', $githubuser->email)->first();
 
-            if($user){
+            if( $user){
                 Auth::loginUsingId($user->id);
                 return redirect('/');
             }
@@ -72,9 +77,11 @@ class SocialController extends Controller
                     'email' => $githubuser->email,
                     'password' => bcrypt(\Str::random(16)),
                 ]);
+
                 $newuser->markEmailAsVerified();
                 Auth::loginUsingId($newuser->id);
                 return redirect('/');
+
             }
         } catch (\Exception $e) {
 

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('script')
+    <script src="https://www.google.com/recaptcha/api.js?hl=fa"></script>
+@endsection
+
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -45,6 +49,12 @@
                             </div>
                         </div>
 
+                        <div class="form-group offset-4">
+                            <div class="g-recaptcha" data-sitekey="6LfW_CcbAAAAAD9XUrO66y9DVaoTK3L0dxJKGutw"></div>
+
+
+                        </div>
+
                         <div class="form-group row">
                             <div class="col-md-6 offset-md-4">
                                 <div class="form-check">
@@ -77,3 +87,5 @@
     </div>
 </div>
 @endsection
+
+
