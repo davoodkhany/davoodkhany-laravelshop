@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\ActiveCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use SoapClient;
+use SoapFault;
 
 class ProfileController extends Controller
 {
@@ -26,22 +28,41 @@ class ProfileController extends Controller
 
 
         if($data['type'] === 'sms'){
+
             // validation phone number
 
             //create code number
             $code = ActiveCode::generateCode($request->user());
 
-            // send code sms
+            try {
+                $client = new SoapClient("http://sms.farazsms.com/class/sms/wsdlservice/server.php?wsdl");
+                $user = "09199312019";
+                $pass = "4310718442";
+                $fromNum = "+9850001040001544";
+                // $toNum = array("9122000000","9210000000");
+                $messageContent = $code;
+                $op  = "send";
+                //If you want to send in the future  ==> $time = '2016-07-30' //$time = '2016-07-30 12:50:50'
+                $time = '';
+
+                // dd($request->phone);
+                $status = $client->SendSMS($fromNum,$request->phone,$messageContent,$user,$pass,$time,$op);
+                dd($status);
+
+            } catch (SoapFault $ex) {
+                echo $ex->faultstring;
+            }
 
 
             if($data['phone'] !== auth()->user()->phone)
             {
-
                 $request->session()->flash('phone', $data['phone']);
 
                 return redirect(route('phoneverify.2f.auth'));
             }
+
             else{
+
                 $request->user()->update([
                     'tow_factor_auth' => 'sms'
                 ]);
