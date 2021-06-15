@@ -2,15 +2,7 @@
 
 
 Route::get('/', function () {
-
-    // auth()->user()->activecode()->create(
-    //     [
-    //         'code' => 11111,
-    //         'expire_at' => now()->addMinutes(10)
-    //     ]
-    // );
-
-    return view('welcome');
+    
 });
 
 Auth::routes(['verify' => true]);
