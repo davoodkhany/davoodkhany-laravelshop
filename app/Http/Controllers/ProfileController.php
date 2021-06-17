@@ -6,8 +6,6 @@ use App\ActiveCode;
 use App\Notifications\ActiveCodeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use SoapClient;
-use SoapFault;
 
 class ProfileController extends Controller
 {

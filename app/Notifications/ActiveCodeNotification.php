@@ -1,11 +1,9 @@
 <?php
 
 namespace App\Notifications;
-use App\NotificationChannels\Discord\DiscordChannel;
+
 use App\Notifications\Channels\SmsChannel;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 class ActiveCodeNotification extends Notification
 {

@@ -5,13 +5,13 @@
 namespace App\Notifications\Channels;
 
 
-use App\NotificationChannels\Discord\DiscordChannel;
+
 
 use Illuminate\Notifications\Notification;
 
  use Ghasedak\GhasedakApi;
 
-class SmsChannel{
+class SmsChannel {
 
 public function send($notifiable, Notification $notification){
 
