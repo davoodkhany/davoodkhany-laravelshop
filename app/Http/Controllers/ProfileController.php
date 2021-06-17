@@ -35,7 +35,7 @@ class ProfileController extends Controller
             //create code number
             $code = ActiveCode::generateCode($request->user());
 
-            $request->user()->notify(new ActiveCodeNotification($code));
+            $request->user()->notify(new ActiveCodeNotification($code,$data['phone']));
 
             if($data['phone'] !== auth()->user()->phone)
             {
