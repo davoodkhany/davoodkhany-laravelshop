@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ActiveCode;
+use App\Notifications\ActiveCodeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use SoapClient;
@@ -34,25 +35,7 @@ class ProfileController extends Controller
             //create code number
             $code = ActiveCode::generateCode($request->user());
 
-            try {
-                $client = new SoapClient("http://sms.farazsms.com/class/sms/wsdlservice/server.php?wsdl");
-                $user = "09199312019";
-                $pass = "4310718442";
-                $fromNum = "+9850001040001544";
-                // $toNum = array("9122000000","9210000000");
-                $messageContent = $code;
-                $op  = "send";
-                //If you want to send in the future  ==> $time = '2016-07-30' //$time = '2016-07-30 12:50:50'
-                $time = '';
-
-                // dd($request->phone);
-                $status = $client->SendSMS($fromNum,$request->phone,$messageContent,$user,$pass,$time,$op);
-                dd($status);
-
-            } catch (SoapFault $ex) {
-                echo $ex->faultstring;
-            }
-
+            $request->user()->notify(new ActiveCodeNotification($code));
 
             if($data['phone'] !== auth()->user()->phone)
             {

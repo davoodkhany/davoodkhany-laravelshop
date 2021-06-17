@@ -1,8 +1,17 @@
 <?php
 
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
-    
+
+    // auth()->user()->activecode()->create(
+    //     [
+    //         'code' => 11111,
+    //         'expire_at' => now()->addMinutes(10)
+    //     ]
+    // );
+
+    return view('welcome');
 });
 
 Auth::routes(['verify' => true]);
@@ -40,5 +49,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/profile/twofacor/phoneverify', 'ProfileController@postVerify');
 });
+
 
 
