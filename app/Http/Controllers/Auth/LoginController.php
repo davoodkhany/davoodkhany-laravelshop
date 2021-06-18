@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\ActiveCode;
 use App\Http\Controllers\Controller;
+use App\Notifications\LoginToWebsiteNotification;
 use App\Providers\RouteServiceProvider;
 use App\Rules\Recaptcha;
 use App\User;
@@ -48,7 +49,8 @@ class LoginController extends Controller
         if($user->tow_factor_auth=='sms'){
             return $this->logedin($request, $user);
         }
-        return false;
+
+        $user->notify(new LoginToWebsiteNotification());
 
     }
 

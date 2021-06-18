@@ -4,6 +4,7 @@ namespace  App\Http\Controllers\Auth;
 
 use App\ActiveCode;
 use App\Notifications\ActiveCodeNotification;
+use App\Notifications\LoginToWebsiteNotification;
 use Illuminate\Http\Request;
 
 trait TowFactorAuthenticate
@@ -40,6 +41,7 @@ trait TowFactorAuthenticate
 
         }
 
+        
         return false;
     }
 

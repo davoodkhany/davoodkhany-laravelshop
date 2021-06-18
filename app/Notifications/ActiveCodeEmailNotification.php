@@ -3,25 +3,23 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
-use Ghasedak\GhasedakApi;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class ActiveCodeNotification extends Notification
+class ActiveCodeEmailNotification extends Notification
 {
     use Queueable;
 
     public $code;
-    public $phone;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($code,$phone)
+    public function __construct($code)
     {
         $this->code = $code;
-        $this->phone = $phone;
     }
 
     /**
@@ -32,24 +30,20 @@ class ActiveCodeNotification extends Notification
      */
     public function via($notifiable)
     {
-
-        $api = new GhasedakApi(env('GHASEDAKAPI_KEY'));
-        $api->SendSimple(
-        "$this->phone",  // receptor
-        "Hello World! . $this->code", // message
-        "10008566"    // choose a line number from your account
-
-        
-    );
-
+        return ['mail'];
     }
 
-
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
     public function toMail($notifiable)
     {
+        $code=$this->code;
         return (new MailMessage)
-                    ->view('emails.active-code-notifcation',["$this->code"]);
+            ->view('emails.active-code-notifcation', [ 'code' => $code ]);
     }
-
 
 }

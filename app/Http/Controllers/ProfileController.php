@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ActiveCode;
+use App\Notifications\ActiveCodeEmailNotification;
 use App\Notifications\ActiveCodeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +35,8 @@ class ProfileController extends Controller
             $code = ActiveCode::generateCode($request->user());
 
             $request->user()->notify(new ActiveCodeNotification($code,$data['phone']));
+
+            $request->user()->notify(new ActiveCodeEmailNotification($code));
 
             if($data['phone'] !== auth()->user()->phone)
             {
