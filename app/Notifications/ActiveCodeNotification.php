@@ -2,9 +2,10 @@
 
 namespace App\Notifications;
 
-use App\Notifications\Channels\SmsChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use Ghasedak\GhasedakApi;
+
 class ActiveCodeNotification extends Notification
 {
     use Queueable;
@@ -30,14 +31,15 @@ class ActiveCodeNotification extends Notification
      */
     public function via($notifiable)
     {
-        return [SmsChannel::class];
+
+         $api = new GhasedakApi(env('GHASEDAKAPI_KEY'));
+        $api->SendSimple(
+        "$this->phone",  // receptor
+        "Hello World! . $this->code", // message
+        "10008566"    // choose a line number from your account
+    );
+
     }
 
-        public function toGahsedakChannels($notifiable){
-            return [
-                'text' => 'hi'. $this->code,
-                'phone' => $this->phone
-             ];
-        }
 
 }

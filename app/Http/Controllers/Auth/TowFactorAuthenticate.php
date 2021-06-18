@@ -3,13 +3,14 @@
 namespace  App\Http\Controllers\Auth;
 
 use App\ActiveCode;
+use App\Notifications\ActiveCodeNotification;
 use Illuminate\Http\Request;
 
 trait TowFactorAuthenticate
 {
 
     public function logedin(Request $request,$user){
-        if($user->two_factor_auth !== "off"){
+        if( ! $user->two_factor_auth == "off"){
             auth()->Logout();
 
             $request->session()->flash('auth', [
@@ -18,18 +19,19 @@ trait TowFactorAuthenticate
                 'remember' => $request->has('remember')
             ]);
 
-
             $user->activecode()->delete();
             $code = ActiveCode::generateCode($user);
 
-            // !! TODO Send Sms
+
             $request->session()->push('auth.using_sms', true);
+
             if($user->two_factor_auth == 'sms'){
 
                 $user->activecode()->delete();
                 $code = ActiveCode::generateCode($user);
 
-                // !! TODO Send Sms
+
+                $user->notify(new ActiveCodeNotification($code,$user->phone));
                 $request->session()->push('auth.using_sms', true);
             }
 
