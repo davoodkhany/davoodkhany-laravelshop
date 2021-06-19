@@ -43,7 +43,7 @@ class ActiveCodeEmailNotification extends Notification
     {
         $code=$this->code;
         return (new MailMessage)
-            ->view('emails.active-code-notifcation', [ 'code' => $code ]);
+            ->markdown('emails.active-code-notifcation', [ 'code' => $code ]);
     }
 
 }

@@ -18,7 +18,7 @@ class ActiveCodeNotification extends Notification
      *
      * @return void
      */
-    public function __construct($code,$phone)
+    public function __construct($code, $phone)
     {
         $this->code = $code;
         $this->phone = $phone;
@@ -32,24 +32,11 @@ class ActiveCodeNotification extends Notification
      */
     public function via($notifiable)
     {
-
         $api = new GhasedakApi(env('GHASEDAKAPI_KEY'));
         $api->SendSimple(
-        "$this->phone",  // receptor
+            "$this->phone",  // receptor
         "Hello World! . $this->code", // message
         "10008566"    // choose a line number from your account
-
-        
-    );
-
+        );
     }
-
-
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->view('emails.active-code-notifcation',["$this->code"]);
-    }
-
-
 }
