@@ -2,6 +2,8 @@
 
 namespace App\Notifications;
 
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
@@ -9,8 +11,9 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\URL;
 
-class EmailVerifiedNotification extends Notification
+class EmailVerifiedNotification extends Notification implements ShouldQueue
 {
+    Use Queueable;
     /**
      * The callback that should be used to build the mail message.
      *

@@ -5,9 +5,10 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Ghasedak\GhasedakApi;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class ActiveCodeNotification extends Notification
+class ActiveCodeNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
