@@ -11,8 +11,10 @@ class LoginToWebsiteNotification extends Notification
 {
     use Queueable;
 
+
     /**
      * Create a new notification instance.
+     * 
      *
      * @return void
      */
