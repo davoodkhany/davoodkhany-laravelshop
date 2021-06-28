@@ -18,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','phone','tow_factor_auth'
+        'name', 'email', 'password','phone','tow_factor_auth','is_supperuser','is_staff'
     ];
 
     /**
@@ -66,5 +66,15 @@ class User extends Authenticatable implements MustVerifyEmail
 
         return $this->hasMany(ActiveCode::class);
 
+    }
+
+
+
+    public function isSupperUser(){
+        return $this->is_supperuser;
+    }
+
+    public function isStaffUser(){
+        return $this->is_staff;
     }
 }
