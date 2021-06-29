@@ -1,5 +1,5 @@
 <?php
 
 Route::get('/', function () {
-    dd('davood');
+return view('admin.master');
 });
