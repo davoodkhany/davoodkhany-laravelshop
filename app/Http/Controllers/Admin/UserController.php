@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Notifications\Admin\CreateUserNotification;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notifiable;
 
 class UserController extends Controller
 {
+    use Notifiable;
+
     /**
      * Display a listing of the resource.
      *
@@ -44,16 +48,20 @@ class UserController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        $data['password'] = bcrypt($request->password);
+        $password = $request->password;
 
-        
+        $data['password'] = bcrypt($password);
 
         $user = User::create($data);
+
+        // $user->nofify();
 
         if($request->has('verify')){
             $user->markEmailAsVerified();
         }
 
+        $user->notify(new CreateUserNotification( $password, $data['email']));
+        
         return redirect(route('admin.users.index'));
     }
 
