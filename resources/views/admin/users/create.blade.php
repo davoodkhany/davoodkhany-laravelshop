@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card ">
-
+                @include('admin.layouts.errors')
                 <!-- /.card-header -->
                 <!-- form start -->
                 <form class="form-horizontal" method="POST" action="{{ route('admin.users.store')}}">

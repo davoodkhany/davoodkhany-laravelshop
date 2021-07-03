@@ -110,9 +110,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-
-
-        $user->notify(new DeleteUserNotification($user->email));
+    
 
         $user->delete();
 
