@@ -7,21 +7,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class DeleteUserNotification extends Notification
+class DeleteUserNotification extends Notification implements ShouldQueue
 {
     use Queueable;
-
-
-
+    public $email;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($email)
     {
-
+        $this->email = $email;
     }
 
     /**
@@ -44,7 +42,7 @@ class DeleteUserNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line("حساب کاربری شمکا با موفقیت از وبسایت ویدونا پاک شد")
+                    ->line("حساب کاربری شما  با موفقیت از وبسایت ویدونا پاک شد")
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');
     }

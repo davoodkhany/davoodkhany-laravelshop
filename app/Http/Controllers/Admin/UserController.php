@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Notifications\Admin\CreateUserNotification;
 use App\Notifications\Admin\DeleteUserNotification;
 use App\User;
+use Illuminate\Contracts\Queue\Queue;
+
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 
@@ -110,11 +112,11 @@ class UserController extends Controller
     {
 
 
-        $user->notify(new DeleteUserNotification());
+        $user->notify(new DeleteUserNotification($user->email));
 
         $user->delete();
 
-
+        alert()->success('کابر مورد نظر با موفقیت حذف شد.');
 
         return back();
     }
