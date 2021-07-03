@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Notifications\Admin\CreateUserNotification;
+use App\Notifications\Admin\DeleteUserNotification;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
@@ -61,7 +62,7 @@ class UserController extends Controller
         }
 
         $user->notify(new CreateUserNotification( $password, $data['email']));
-        
+
         return redirect(route('admin.users.index'));
     }
 
@@ -105,8 +106,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+
+
+        $user->notify(new DeleteUserNotification());
+
+        $user->delete();
+
+
+
+        return back();
     }
 }

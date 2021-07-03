@@ -45,16 +45,24 @@
                             <span class="badge badge-danger">تاییده نشده</span>
                         @endif
                     </td>
-                    <td>
-                        <a href="#" class="btn btn-sm btn-danger">حذف</a>
+                    <td class="d-flex">
+                        <form method="post" action="{{ route('admin.users.destroy', $user) }}">
+                            @csrf
+                            @method('DELETE')
+                            <button href="#" class="btn btn-sm btn-danger">حذف</button>
+                        </form>
                         <a href="#" class="btn btn-sm btn-primary">ویرایش</a>
                     </td>
                   </tr>
                 @endforeach
 
-              </tbody></table>
+              </tbody>
+            </table>
             </div>
             <!-- /.card-body -->
+            <div class="card-footer">
+                {{ $users->render() }}
+            </div>
           </div>
           <!-- /.card -->
         </div>
