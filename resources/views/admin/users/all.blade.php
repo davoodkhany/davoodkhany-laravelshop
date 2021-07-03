@@ -9,14 +9,15 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">جدول ریسپانسیو</h3>
+              <h3 class="card-title">جدول کاربران</h3>
 
-              <div class="card-tools">
+              <div class="card-tools ">
                 <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="float-right form-control" placeholder="جستجو">
 
+                    <input type="text" name="table_search" class="float-right form-control" placeholder="جستجو">
                   <div class="input-group-append">
                     <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    <a  href="{{ route('admin.users.create') }}" class="mr-4 btn btn-success">ایجاد کاربر</a>
                   </div>
                 </div>
               </div>
