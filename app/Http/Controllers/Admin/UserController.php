@@ -4,12 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Notifications\Admin\CreateUserNotification;
-use App\Notifications\Admin\DeleteUserNotification;
 use App\User;
-use Illuminate\Contracts\Queue\Queue;
-
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -82,12 +80,12 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -97,9 +95,32 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $data = $request->validate([
+
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)]
+        ]);
+
+        if(! is_null($request->password)){
+
+            $request->validate([
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+            ]);
+
+            $data['password'] = bcrypt($request->password);
+        }
+
+         $user->update($data);
+
+
+        if($request->verify){
+            $user->markEmailAsVerified();
+        }
+
+        return redirect(route('admin.users.index'));
+
     }
 
     /**
@@ -110,7 +131,6 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-    
 
         $user->delete();
 

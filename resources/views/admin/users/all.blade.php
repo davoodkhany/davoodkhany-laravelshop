@@ -51,7 +51,7 @@
                             @method('DELETE')
                             <button href="#" class="btn btn-sm btn-danger">حذف</button>
                         </form>
-                        <a href="#" class="btn btn-sm btn-primary">ویرایش</a>
+                        <a href="{{ route('admin.users.edit' , $user) }}" class="btn btn-sm btn-primary">ویرایش</a>
                     </td>
                   </tr>
                 @endforeach
