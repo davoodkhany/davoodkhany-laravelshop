@@ -5,25 +5,32 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Notifications\Admin\CreateUserNotification;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Validation\Rule;
-
+use Illuminate\Http\Request;
 class UserController extends Controller
 {
     use Notifiable;
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index(Request $request)
     {
-        $users = User::paginate(10);
+
+        $users = User::query();
+
+        if ($keyword = $request->search){
+
+            $users = User::where('email', 'LIKE', "%$keyword%")->orWhere('email', 'LIKE', "%$keyword%");
+
+        }
+
+
+        $users = $users->latest()->paginate(2);
 
         return view('admin.users.all', compact('users'));
+
     }
+
 
     /**
      * Show the form for creating a new resource.
