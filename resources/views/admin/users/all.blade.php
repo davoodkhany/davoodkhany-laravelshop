@@ -12,14 +12,15 @@
               <h3 class="card-title">جدول کاربران</h3>
 
               <div class="card-tools ">
-                <div class="input-group input-group-sm d-flex" >
-                    <form action="" >
+                <div class="input-group input-group-sm" >
+                    <form action="" class="d-flex">
                         <input type="text" name="search" class="float-right form-control"  placeholder="جستجو">
-                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                        <button type="submit" class="btn btn-default btn-sm"><i class="fa fa-search"></i></button>
                     </form>
                     <div class="input-group-append">
                         <a  href="{{ route('admin.users.create') }}" class="mr-4 btn btn-success">ایجاد کاربر</a>
-                  </div>
+                    </div>
+
                 </div>
               </div>
             </div>
