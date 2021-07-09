@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 Route::get('/', function () {
 
@@ -50,5 +51,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/twofacor/phoneverify', 'ProfileController@postVerify');
 });
 
+
+
+
+
+Route::get('test', function () {
+
+    $string = Str::of('my name is davood')->slug('-');
+return $string;
+
+});
 
 
