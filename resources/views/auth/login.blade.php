@@ -1,8 +1,5 @@
 @extends('layouts.app')
 
-@section('script')
-    <script src="https://www.google.com/recaptcha/api.js?hl=fa"></script>
-@endsection
 
 @section('content')
 <div class="container">
@@ -50,15 +47,9 @@
                         </div>
 
                         <div class="form-group offset-4">
-                            <div class="g-recaptcha @error ('g-recaptcha-response') is-invalid @enderror"  data-sitekey="6LfW_CcbAAAAAD9XUrO66y9DVaoTK3L0dxJKGutw"></div>
+                            <x-recaptcha></x-recaptcha>
 
-                            @error('g-recaptcha-response')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
 
-                            </span>
-
-                        @enderror
 
                         </div>
 
