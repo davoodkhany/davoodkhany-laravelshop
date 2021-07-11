@@ -1,17 +1,21 @@
 <?php
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 Route::get('/', function () {
 
-    // auth()->user()->activecode()->create(
-    //     [
-    //         'code' => 11111,
-    //         'expire_at' => now()->addMinutes(10)
-    //     ]
-    // );
+        auth()->loginUsingId(26);
 
+        $user = User::find(26);
+
+        if(Gate::allows('edit-user',$user))
+            {
+                return "ok";
+            }
+
+            return 'no';
     return view('welcome');
 });
 

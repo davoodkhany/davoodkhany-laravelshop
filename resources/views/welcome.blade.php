@@ -61,6 +61,25 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+
+            .boxing
+            {
+                border-radius: 10px !important;
+                box-shadow: 5px -5px 5px #7bb97b!important;
+            }
+
+            .boxing .avia_message_box_title{
+                display: flex !important;
+                font-size: 17px !important;
+                font-weight: bolder !important;
+                color: crimson !important;
+            }
+            .boxing .avia_message_box_content {
+                margin-top: 20px !important;
+            }
+
+
         </style>
     </head>
     <body>

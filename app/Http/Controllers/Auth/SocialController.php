@@ -84,7 +84,7 @@ class SocialController extends Controller
                     'password' => bcrypt(\Str::random(16)),
                 ]);
 
-                
+
 
                 $newuser->markEmailAsVerified();
 
@@ -105,3 +105,8 @@ class SocialController extends Controller
         //Github login
 
 }
+
+
+
+
+
