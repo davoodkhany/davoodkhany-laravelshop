@@ -6,16 +6,16 @@ use Illuminate\Support\Facades\Http;
 
 Route::get('/', function () {
 
-        auth()->loginUsingId(26);
+        // auth()->loginUsingId(26);
 
-        $user = User::find(26);
+        // $user = User::find(26);
 
-        if(Gate::allows('edit-user',$user))
-            {
-                return "ok";
-            }
+        // if(Gate::allows('edit-user',$user))
+        //     {
+        //         return "ok";
+        //     }
 
-            return 'no';
+            // return 'no';
     return view('welcome');
 });
 
@@ -39,8 +39,6 @@ Route::get('auth/github/callback/', 'Auth\SocialController@callbackGithub');
 
 
 
-
-
 Route::middleware('auth')->group(function () {
 
     Route::get('/profile', 'ProfileController@index');
@@ -54,9 +52,6 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/profile/twofacor/phoneverify', 'ProfileController@postVerify');
 });
-
-
-
 
 
 Route::get('test', function () {

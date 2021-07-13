@@ -8,6 +8,8 @@ use App\User;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+
 class UserController extends Controller
 {
     use Notifiable;
@@ -23,7 +25,6 @@ class UserController extends Controller
             $users = User::where('email', 'LIKE', "%$keyword%")->orWhere('email', 'LIKE', "%$keyword%");
 
         }
-
 
         $users = $users->latest()->paginate(2);
 
@@ -92,7 +93,13 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+
+        if( Gate::denies('edit-user', $user)){
+            abort(403);
+        }
+
         return view('admin.users.edit', compact('user'));
+
     }
 
     /**

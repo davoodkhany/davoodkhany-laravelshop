@@ -27,12 +27,7 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('edit-user',function($user, $curentuser)
         {
-
-
-
             return $user->id == $curentuser->id;
-
-
         });
     }
 }
