@@ -53,7 +53,11 @@
                             @method('DELETE')
                             <button href="#" class="btn btn-sm btn-danger">حذف</button>
                         </form>
+                        @can('edit-user', $user)
+
                         <a href="{{ route('admin.users.edit' , $user) }}" class="btn btn-sm btn-primary">ویرایش</a>
+
+                        @endcan
                     </td>
                   </tr>
                 @endforeach

@@ -94,9 +94,11 @@ class UserController extends Controller
     public function edit(User $user)
     {
 
-        if( Gate::denies('edit-user', $user)){
-            abort(403);
-        }
+        // if( Gate::denies('edit-user', $user)){
+        //     abort(403);
+        // }
+
+       $this->authorize('edit-user', $user);
 
         return view('admin.users.edit', compact('user'));
 
