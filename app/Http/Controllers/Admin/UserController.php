@@ -98,7 +98,7 @@ class UserController extends Controller
         //     abort(403);
         // }
 
-       $this->authorize('edit-user', $user);
+       $this->authorize('edit', $user);
 
         return view('admin.users.edit', compact('user'));
 
