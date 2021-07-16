@@ -67,6 +67,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(ActiveCode::class);
 
     }
+    
 
 
 
@@ -76,5 +77,15 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isStaffUser(){
         return $this->is_staff;
+    }
+
+
+
+    public function rules(){
+        return $this->belongsToMany(Rule::class);
+    }
+
+    public function permissions(){
+        return $this->belongsToMany(Permission::class);
     }
 }

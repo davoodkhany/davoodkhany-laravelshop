@@ -82,8 +82,10 @@ class PermisionsUsersTables extends Migration
     {
 
         Schema::drop('permission_user');
+        
 
         Schema::drop('rule_user');
+
 
         Schema::drop('permission_rule');
 
