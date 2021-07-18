@@ -67,9 +67,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(ActiveCode::class);
 
     }
-    
-
-
 
     public function isSupperUser(){
         return $this->is_supperuser;
@@ -79,8 +76,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->is_staff;
     }
 
-
-
     public function rules(){
         return $this->belongsToMany(Rule::class);
     }
@@ -88,4 +83,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function permissions(){
         return $this->belongsToMany(Permission::class);
     }
+
+
+    public function hasRule($rules)
+    {
+        return !! $rules->intersect($this->rules)->all();
+    }
+
+    public function hasPermission($permission)
+    {
+        return $this->permissions->contains('name' , $permission->name) || $this->hasRule($permission->rules);
+    }
+
 }

@@ -1,22 +1,23 @@
 <?php
 
+use App\Permission;
+use App\Rule;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 
 Route::get('/', function () {
 
-        // auth()->loginUsingId(26);
+    if(Gate::allows('delete-user')){
+        return redirect(route('admin.'));
+    }
 
-        // $user = User::find(26);
-
-        // if(Gate::allows('edit-user',$user))
-        //     {
-        //         return "ok";
-        //     }
-
-            // return 'no';
-    return view('welcome');
+    return 'no';
+        // auth()->loginUsingId(1);
+        // return 'yes';
+    // $rules = Rule::find(1);
+    // return $rules->permissions;
 });
 
 Auth::routes(['verify' => true]);
