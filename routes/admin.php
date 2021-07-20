@@ -9,6 +9,6 @@ return view('admin.index');
 
 Route::resource('users','UserController');
 
-Route::resource('permission', PermissionController::class);
+Route::resource('permission', 'PermissionController');
 
 

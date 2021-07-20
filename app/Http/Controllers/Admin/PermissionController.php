@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Permission;
+use App\User;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
@@ -13,10 +14,16 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $permissions = Permission::paginate(10);
-        dd($permissions);
+        $permissions = Permission::query();
+
+        if($keyword = $request->search){
+            $permissions = Permission::where('label', "LIKE" , "%$keyword%")->orWhere('name', 'LIKE', "%$keyword%");
+        }
+
+        $permissions = $permissions->latest()->paginate(10);
+        return view('admin.permissions.all', compact('permissions'));
     }
 
     /**
@@ -26,7 +33,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        //
+     return view('admin.permissions.create');
     }
 
     /**
@@ -37,7 +44,17 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|unique:permissions|max:255',
+            'label' => 'required|max:255'
+        ]);
+
+        Permission::create($data);
+
+        alert()->success('دسترسی مورد نظر با موفقیت اضافه شد.');
+
+        return redirect(route('admin.permission.index'));
+
     }
 
     /**
@@ -59,7 +76,7 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
-        //
+        return view('admin.permissions.edit', compact('permission'));
     }
 
     /**
@@ -71,7 +88,18 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-        //
+
+        $data = $request->validate([
+            'name' => 'required|unique:permissions|max:255',
+            'label' => 'required|max:255'
+        ]);
+
+        $permission->update($data);
+
+        alert()->success('دسترسی مورد نظر با موفقیت ویرایش شد.');
+        
+        return redirect(route('admin.permission.index'));
+
     }
 
     /**
@@ -82,6 +110,8 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
-        //
+        $permission->delete();
+
+        return back();
     }
 }

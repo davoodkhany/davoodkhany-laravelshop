@@ -18,7 +18,7 @@
                         <button type="submit" class="btn btn-default btn-sm"><i class="fa fa-search"></i></button>
                     </form>
                     <div class="input-group-append">
-                        <a  href="{{ route('admin.users.create') }}" class="mr-4 btn btn-success">ایجاد کاربر</a>
+                        <a  href="{{ route('admin.permission.create') }}" class="mr-4 btn btn-success">ایجاد کاربر</a>
                     </div>
 
                 </div>
@@ -28,36 +28,24 @@
             <div class="p-0 card-body table-responsive">
               <table class="table table-hover">
                 <tbody><tr>
-                  <th>آی دی کاربر</th>
-                  <th>نام </th>
-                  <th>ایمیل</th>
-                  <th>وضعیت</th>
-                  <th>دلیل</th>
+                  <th>نام دسترسی</th>
+                  <th>توضیحات دسترسی </th>
                 </tr>
 
-                @foreach($users as $user)
+                @foreach($permissions as $permission)
                 <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>
-                        @if ($user->email_verified_at)
-                            <span class="badge badge-success">تایید شده</span>
-                        @else
-                            <span class="badge badge-danger">تاییده نشده</span>
-                        @endif
-                    </td>
+
+                    <td>{{ $permission->name }}</td>
+                    <td>{{ $permission->label }}</td>
+
                     <td class="d-flex">
-                        <form method="post" action="{{ route('admin.users.destroy', $user) }}">
+                        <form method="post" action="{{ route('admin.permission.destroy', $permission) }}">
                             @csrf
                             @method('DELETE')
                             <button href="#" class="btn btn-sm btn-danger">حذف</button>
                         </form>
-                        @can('edit', $user)
+                        <a href="{{ route('admin.permission.edit' , $permission) }}" class="btn btn-sm btn-primary">ویرایش</a>
 
-                        <a href="{{ route('admin.users.edit' , $user) }}" class="btn btn-sm btn-primary">ویرایش</a>
-
-                        @endcan
                     </td>
                   </tr>
                 @endforeach
@@ -67,7 +55,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-                {{ $users->render() }}
+                {{ $permissions->render() }}
             </div>
           </div>
           <!-- /.card -->
