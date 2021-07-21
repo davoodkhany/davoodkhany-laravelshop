@@ -1,15 +1,15 @@
-@component('admin.layouts.content', ['title' => 'دسترسی ها'])
+@component('admin.layouts.content', ['title' => 'مقام ها'])
 
     @slot('breadcrumb')
         <li class="breadcrumb-item"><a href="/admin">پنل مدیریت</a></li>
-        <li class="breadcrumb-item active">دسترسی ها</li>
+        <li class="breadcrumb-item active">مقام ها</li>
     @endslot
 
     <div class="row">
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">جدول دسترسی ها</h3>
+              <h3 class="card-title">جدول مقام ها</h3>
 
               <div class="card-tools ">
                 <div class="input-group input-group-sm" >
@@ -18,7 +18,7 @@
                         <button type="submit" class="btn btn-default btn-sm"><i class="fa fa-search"></i></button>
                     </form>
                     <div class="input-group-append">
-                        <a  href="{{ route('admin.permission.create') }}" class="mr-4 btn btn-success">ایجاد کاربر</a>
+                        <a  href="{{ route('admin.rule.create') }}" class="mr-4 btn btn-success">ایجاد کاربر</a>
                     </div>
 
                 </div>
@@ -31,20 +31,20 @@
                   <th>نام دسترسی</th>
                   <th>توضیحات دسترسی </th>
                 </tr>
-
-                @foreach($permissions as $permission)
+rule
+                @foreach($rules as $rule)
                 <tr>
-
-                    <td>{{ $permission->name }}</td>
-                    <td>{{ $permission->label }}</td>
+rule
+                    <td>{{ $rule->name }}</td>
+                    <td>{{ $rule->label }}</td>
 
                     <td class="d-flex">
-                        <form method="post" action="{{ route('admin.permission.destroy', $permission) }}">
+                        <form method="post" action="{{ route('admin.rule.destroy', $rule) }}">
                             @csrf
                             @method('DELETE')
                             <button href="#" class="btn btn-sm btn-danger">حذف</button>
                         </form>
-                        <a href="{{ route('admin.permission.edit' , $permission) }}" class="btn btn-sm btn-primary">ویرایش</a>
+                        <a href="{{ route('admin.rule.edit' , $rule) }}" class="btn btn-sm btn-primary">ویرایش</a>
 
                     </td>
                   </tr>
@@ -55,7 +55,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-                {{ $permissions->render() }}
+                {{ $rules->render() }}
             </div>
           </div>
           <!-- /.card -->

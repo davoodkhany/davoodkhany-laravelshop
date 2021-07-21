@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Rule;
+
+use App\Rule as RuleModel;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule as ValidationRule;
 
 class RuleController extends Controller
 {
@@ -15,10 +17,10 @@ class RuleController extends Controller
      */
     public function index( Request $request)
     {
-        $rules = Rule::query();
+        $rules = RuleModel::query();
 
         if( $keyword = $request->search){
-            $rules = Rule::where('name', "LIKE", "%$keyword%")->orWhere('label', "LIKE", "%$keyword%")->paginate(10);
+            $rules = RuleModel::where('name', "LIKE", "%$keyword%")->orWhere('label', "LIKE", "%$keyword%")->paginate(10);
         }
 
         $rules = $rules->latest()->paginate(10);
@@ -33,7 +35,7 @@ class RuleController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.rule.create');
     }
 
     /**
@@ -42,9 +44,19 @@ class RuleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, RuleModel $rule)
     {
-        //
+
+        $data = $request->validate([
+            'name' => ['required','max:255', ValidationRule::unique('rules')->ignore($rule->id)],
+            'label' => ['required','string','max:255']
+        ]);
+
+        $rule->create($data);
+
+        alert()->success('مقام مورد نظر با موفقیت ثبت شد');
+
+        return redirect(route('admin.rule.index'));
     }
 
     /**
@@ -53,7 +65,7 @@ class RuleController extends Controller
      * @param  \App\Rule  $rule
      * @return \Illuminate\Http\Response
      */
-    public function show(Rule $rule)
+    public function show(RuleModel $rule)
     {
         //
     }
@@ -64,9 +76,9 @@ class RuleController extends Controller
      * @param  \App\Rule  $rule
      * @return \Illuminate\Http\Response
      */
-    public function edit(Rule $rule)
+    public function edit(RuleModel $rule)
     {
-        //
+        return view('admin.rule.edit', ['rule' => $rule]);
     }
 
     /**
@@ -76,9 +88,18 @@ class RuleController extends Controller
      * @param  \App\Rule  $rule
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Rule $rule)
+    public function update(Request $request, RuleModel $rule)
     {
-        //
+        $data = $request->validate([
+            'name' => ['required','max:255', ValidationRule::unique('rules')->ignore($rule->id)],
+            'label' => ['required','string','max:255']
+        ]);
+
+        $rule->update($data);
+
+        alert()->success('مقام مورد نظر با موفقیت ویرایش شد.');
+
+        return redirect(route('admin.rule.index'));
     }
 
     /**
@@ -87,8 +108,14 @@ class RuleController extends Controller
      * @param  \App\Rule  $rule
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Rule $rule)
+    public function destroy(RuleModel $rule)
     {
-        //
+
+        $rule->delete();
+
+        alert()->success('مقام مورد نظر با موفقیت حذف شد');
+
+        return back();
+
     }
 }
