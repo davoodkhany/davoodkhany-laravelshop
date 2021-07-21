@@ -62,7 +62,13 @@
                   <li class="nav-item">
                     <a href="{{ route('admin.permission.index') }}" class="nav-link {{ isActive('admin.permission.index')}}">
                       <i class="fa fa-circle-o nav-icon"></i>
-                      <p>لیست کاربران</p>
+                      <p>اجازه دسترسی</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ route('admin.rule.index') }}" class="nav-link {{ isActive('admin.rule.index')}}">
+                      <i class="fa fa-circle-o nav-icon"></i>
+                      <p>مقام ها </p>
                     </a>
                   </li>
                 </ul>
