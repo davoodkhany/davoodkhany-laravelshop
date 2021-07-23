@@ -20,14 +20,24 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label  class="col-sm-2 control-label">نام مقام</label>
-                              <input type="text" name="name" class="form-control" id="inputEmail3"  value="{{ old('name') , $rule->name }}" placeholder="نام مقام را وارد کنید">
+                              <input type="text" name="name" class="form-control" id="inputEmail3"  value="{{ $rule->name }}" placeholder="نام مقام را وارد کنید">
                           </div>
                         <div class="form-group">
                           <label for="label" class="col-sm-2 control-label">توضیحات مقام</label>
-                            <input type="text" name="label" class="form-control" id="label" value="{{old('label') , $rule->label }}" placeholder="ایمیل را وارد کنید">
+                            <input type="text" name="label" class="form-control" id="label" value="{{ $rule->label }}" placeholder="ایمیل را وارد کنید">
+                        </div>
+
+                        <div class="form-group">
+                            <select class="form-control" name="permissions[]" multiple>
+                                @foreach(\App\Permission::all() as $permission)
+                                    <option value="{{ $permission->id }}" {{in_array($permission->id, $rule->permissions->pluck('id')->toArray()) ? 'selected' : ''  }}>{{ $permission->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                       </div>
                       <!-- /.card-body -->
+
+
 
                   <!-- /.card-body -->
                   <div class="card-footer">

@@ -44,17 +44,23 @@ class RuleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, RuleModel $rule)
+    public function store(Request $request)
     {
 
         $data = $request->validate([
-            'name' => ['required','max:255', ValidationRule::unique('rules')->ignore($rule->id)],
-            'label' => ['required','string','max:255']
+            'name' => ['required','max:255','unique:rules'],
+            'label' => ['required','string','max:255'],
+            'permissions' =>'required|array'
         ]);
 
-        $rule->create($data);
+
+        $rule = RuleModel::create($data);
+
+        $rule->permissions()->sync($request->permissions);
 
         alert()->success('مقام مورد نظر با موفقیت ثبت شد');
+
+
 
         return redirect(route('admin.rule.index'));
     }
@@ -92,10 +98,13 @@ class RuleController extends Controller
     {
         $data = $request->validate([
             'name' => ['required','max:255', ValidationRule::unique('rules')->ignore($rule->id)],
-            'label' => ['required','string','max:255']
+            'label' => ['required','string','max:255'],
+            'permissions' => ['required','array']
         ]);
 
         $rule->update($data);
+
+        $rule->permissions()->sync($data['permissions']);
 
         alert()->success('مقام مورد نظر با موفقیت ویرایش شد.');
 

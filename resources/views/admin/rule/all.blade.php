@@ -31,10 +31,8 @@
                   <th>نام دسترسی</th>
                   <th>توضیحات دسترسی </th>
                 </tr>
-rule
                 @foreach($rules as $rule)
                 <tr>
-rule
                     <td>{{ $rule->name }}</td>
                     <td>{{ $rule->label }}</td>
 

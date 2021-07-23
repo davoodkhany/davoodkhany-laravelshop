@@ -24,6 +24,14 @@
                       <label for="label" class="col-sm-2 control-label">توضیحات مقام</label>
                         <input type="text" name="label" class="form-control" id="label" placeholder="توضیحات را وارد کنید">
                     </div>
+
+                    <div class="form-group">
+                        <select class="form-control" name="permissions[]" multiple>
+                            @foreach (App\Permission::all() as $permissions )
+                                <option value="{{ $permissions->id }}">{{ $permissions->name }}</option>
+                            @endforeach
+                        </select>
+                     </div>
                   </div>
                   <!-- /.card-body -->
                   <div class="card-footer">
