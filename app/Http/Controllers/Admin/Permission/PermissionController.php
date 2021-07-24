@@ -9,7 +9,7 @@ class PermissionController extends Controller
 {
 
     public function create(){
-
+        return view('admin.users.permission')
     }
 
     public function store(){
