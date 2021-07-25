@@ -45,6 +45,7 @@
 
 @include('sweet::alert')
 
+@yield('script')
 
 </body>
 

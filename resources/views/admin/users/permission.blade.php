@@ -6,6 +6,14 @@
         <li class="breadcrumb-item">ایجاد دسترسی</li>
 
     @endslot
+    
+    @section('script')
+
+    $('#rules').select2({
+        placeholder: 'Select an option'
+      });
+
+    @endsection
 
     <div class="row">
         <div class="col-lg-12">
@@ -49,10 +57,5 @@
         </div>
     </div>
 
-    @section('script')
 
-    $('.rules').select2({
-        placeholder: 'Select an option'
-      });
-    @endsection
 @endcomponent
