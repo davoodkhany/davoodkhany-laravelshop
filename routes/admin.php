@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 Route::get('/', function () {
 return view('admin.index');
 });
@@ -9,9 +7,11 @@ return view('admin.index');
 
 Route::resource('users','UserController');
 
-Route::get('users/{$user}/permission', 'Permission/PermissionController@create')->name('admin.users.permission');
-Route::post('users/{$user}/permission', 'Permission/PermissionController@store')->name('admin.users.permission.store');
+Route::get('/users/{user}/permission', 'Permission\PermissionController@create')->name('user.permission.create');
+
+Route::post('/users/{user}/permission', 'Permission\PermissionController@store')->name('user.permission.store');
 
 Route::resource('permission', 'PermissionController');
+
 Route::resource('rule', 'RuleController');
 

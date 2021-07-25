@@ -53,11 +53,10 @@
                             @method('DELETE')
                             <button href="#" class="btn btn-sm btn-danger">حذف</button>
                         </form>
-                        @can('edit', $user)
-
                         <a href="{{ route('admin.users.edit' , $user) }}" class="btn btn-sm btn-primary">ویرایش</a>
 
-                        @endcan
+                        <a href="{{ route('admin.user.permission.create' , $user->id) }}" class="btn btn-sm btn-primary">دسترسی ها </a>
+
                     </td>
                   </tr>
                 @endforeach
