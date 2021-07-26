@@ -17,9 +17,12 @@
                         <input type="text" name="search" class="float-right form-control"  placeholder="جستجو">
                         <button type="submit" class="btn btn-default btn-sm"><i class="fa fa-search"></i></button>
                     </form>
-                    <div class="input-group-append">
-                        <a  href="{{ route('admin.users.create') }}" class="mr-4 btn btn-success">ایجاد کاربر</a>
-                    </div>
+                    @can('create-user')
+                        <div class="input-group-append">
+                            <a  href="{{ route('admin.users.create') }}" class="mr-4 btn btn-success">ایجاد کاربر</a>
+                        </div>
+                    @endcan
+
 
                 </div>
               </div>
@@ -53,7 +56,14 @@
                             @method('DELETE')
                             <button href="#" class="btn btn-sm btn-danger">حذف</button>
                         </form>
-                        <a href="{{ route('admin.users.edit' , $user) }}" class="btn btn-sm btn-primary">ویرایش</a>
+
+                        @can('edit-user', $user)
+                            <a href="{{ route('admin.users.edit' , $user) }}" class="btn btn-sm btn-primary">ویرایش</a>
+                        @endcan
+
+
+
+
 
                         <a href="{{ route('admin.user.permission.create' , $user->id) }}" class="btn btn-sm btn-primary">دسترسی ها </a>
 

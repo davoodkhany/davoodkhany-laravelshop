@@ -17,16 +17,10 @@ class PermissionController extends Controller
     public function store(Request $request, User $user){
 
 
-        $data = $request->validate([
-            'rules' => 'required|array',
-            'permissions' => 'required|array'
-        ]);
 
-       
+        $user->rules()->sync($request->rules);
 
-        $user->rules()->sync($data['rules']);
-
-        $user->permissions()->sync($data['permissions']);
+        $user->permissions()->sync($request->permissions);
 
         alert()->success('دسترسی مورد نظر با موفقیت ثبت شد.');
 

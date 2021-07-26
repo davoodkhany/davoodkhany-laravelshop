@@ -9,15 +9,17 @@ use Illuminate\Support\Facades\Http;
 
 Route::get('/', function () {
 
-    if(Gate::allows('delete-user')){
-        return redirect(route('admin.'));
-    }
+    // if(Gate::allows('delete-user')){
+    //     return redirect(route('admin.'));
+    // }
 
-    return 'no';
+    // return 'no';
         // auth()->loginUsingId(1);
         // return 'yes';
     // $rules = Rule::find(1);
     // return $rules->permissions;
+
+    Auth::loginUsingid(28);
 });
 
 Auth::routes(['verify' => true]);

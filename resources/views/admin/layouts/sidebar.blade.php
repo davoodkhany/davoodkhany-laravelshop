@@ -31,6 +31,9 @@
                 </p>
               </a>
             </li>
+            @can('list-user')
+
+
             <li class="nav-item has-treeview {{ isActive(['admin.users.index','admin.users.create', 'admin.users.edit'], 'menu-open') }}">
                 <a href="#" class="nav-link {{ isActive(['admin.users.index','admin.users.create', 'admin.users.edit']) }}">
                   <i class="nav-icon fa fa-users"></i>
@@ -47,9 +50,9 @@
                     </a>
                   </li>
                 </ul>
-              </li>
+            </li>
 
-
+            @endcan
               <li class="nav-item has-treeview {{ isActive(['admin.users.index','admin.users.create', 'admin.users.edit'], 'menu-open') }}">
                 <a href="#" class="nav-link {{ isActive(['admin.users.index','admin.users.create', 'admin.users.edit']) }}">
                   <i class="nav-icon fa fa-users"></i>
