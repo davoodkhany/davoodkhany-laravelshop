@@ -53,23 +53,23 @@
             </li>
 
             @endcan
-              <li class="nav-item has-treeview {{ isActive(['admin.users.index','admin.users.create', 'admin.users.edit'], 'menu-open') }}">
-                <a href="#" class="nav-link {{ isActive(['admin.users.index','admin.users.create', 'admin.users.edit']) }}">
+              <li class="nav-item has-treeview {{ isActive(['admin.permission.index', 'admin.permission.create', 'admin.permission.edit', 'admin.rule.index', 'admin.rule.edit', 'admin.rule.create'], 'menu-open') }}">
+                <a href="#" class="nav-link {{ isActive(['admin.permission.index', 'admin.permission.create', 'admin.permission.edit', 'admin.rule.index', 'admin.rule.edit', 'admin.rule.create']) }}">
                   <i class="nav-icon fa fa-users"></i>
                   <p>
                     بخش اجازه دسترسی
                     <i class="right fa fa-angle-left"></i>
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview ">
                   <li class="nav-item">
-                    <a href="{{ route('admin.permission.index') }}" class="nav-link {{ isActive('admin.permission.index')}}">
+                    <a href="{{ route('admin.permission.index') }}" class="nav-link {{ isActive(['admin.permission.index','admin.permission.create', 'admin.permission.edit'])}}">
                       <i class="fa fa-circle-o nav-icon"></i>
                       <p>اجازه دسترسی</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{ route('admin.rule.index') }}" class="nav-link {{ isActive('admin.rule.index')}}">
+                    <a href="{{ route('admin.rule.index') }}" class="nav-link {{ isActive(['admin.rule.index','admin.rule.create','admin.rule.edit'])}}">
                       <i class="fa fa-circle-o nav-icon"></i>
                       <p>مقام ها </p>
                     </a>

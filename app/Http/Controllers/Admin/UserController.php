@@ -18,8 +18,10 @@ class UserController extends Controller
     public function index(Request $request)
     {
 
+
         $users = User::query();
 
+        Gate::authorize('list-user');
         if ($keyword = $request->search){
 
             $users = User::where('email', 'LIKE', "%$keyword%")->orWhere('email', 'LIKE', "%$keyword%");
