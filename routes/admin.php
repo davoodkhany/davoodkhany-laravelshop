@@ -15,5 +15,5 @@ Route::resource('permission', 'PermissionController');
 
 Route::resource('rule', 'RuleController');
 
-Route::resource('products', 'ProductController');
+Route::resource('products', 'ProductController')->except(['show']);
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -12,9 +13,18 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $products = Product::query();
+
+        if($keword = $request->search){
+
+            $products = Product::where('title','LIKE',"%$keword%")->orWhere('id','LIKE',"%$keword%");
+        }
+
+        $products = $products->latest()->paginate(10);
+
+        return view('admin.products.all', compact('products'));
     }
 
     /**
@@ -24,7 +34,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.products.create');
     }
 
     /**
@@ -35,19 +45,25 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+
+            'title' => ' required',
+            'description' => 'required',
+            'price' => ' required',
+            'inventory' => ' required',
+        ]);
+
+
+
+        auth()->user()->products()->create($data);
+
+        alert()->success('محصول شما با موفقیت ایجاد شد.');
+
+        return redirect(route('admin.products.index'));
+
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -55,9 +71,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Product $product)
     {
-        //
+        return view('admin.products.edit', compact('product'));
     }
 
     /**
@@ -67,9 +83,24 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        //
+
+        $data = $request->validate([
+
+            'title' => ' required',
+            'description' => 'required',
+            'price' => ' required',
+            'inventory' => ' required',
+        ]);
+
+
+        auth()->user()->products()->update($data);
+
+        alert()->success('محصول شما با موفقیت ایجاد شد.');
+
+        return redirect(route('admin.products.index'));
+
     }
 
     /**
@@ -78,8 +109,11 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return back();
+
     }
 }
