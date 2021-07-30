@@ -66,7 +66,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-                {{ $products->render() }}
+                {{ $products->appends(['search' => request()->search])->render() }}
             </div>
           </div>
           <!-- /.card -->

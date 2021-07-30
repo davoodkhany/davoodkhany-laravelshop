@@ -22,7 +22,7 @@ class ProductController extends Controller
             $products = Product::where('title','LIKE',"%$keword%")->orWhere('id','LIKE',"%$keword%");
         }
 
-        $products = $products->latest()->paginate(10);
+        $products = $products->latest()->paginate(1);
 
         return view('admin.products.all', compact('products'));
     }
