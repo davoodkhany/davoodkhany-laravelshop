@@ -40,7 +40,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="ml-auto navbar-nav">
+                    <ul class="mr-auto navbar-nav">
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">

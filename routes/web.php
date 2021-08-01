@@ -57,11 +57,15 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('test', function () {
+Route::get('products', 'ProductController@index');
+Route::get('products/{product}', 'ProductController@show');
 
-    $string = Str::of('my name is davood')->slug('-');
-return $string;
 
-});
+// Route::get('test', function () {
+
+//     $string = Str::of('my name is davood')->slug('-');
+// return $string;
+
+// });
 
 
