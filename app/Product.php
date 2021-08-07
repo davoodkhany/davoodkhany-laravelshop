@@ -13,4 +13,11 @@ class Product extends Model
     public function users(){
         return $this->belongsTo(User::class);
     }
+
+
+    public function comments(){
+        $this->morphMany(Comment::class, 'commentable');
+    }
+
+
 }

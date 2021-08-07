@@ -1,6 +1,7 @@
 <?php
 
 use App\Permission;
+use App\Product;
 use App\Rule;
 use App\User;
 use Illuminate\Http\Request;
@@ -9,17 +10,22 @@ use Illuminate\Support\Facades\Http;
 
 Route::get('/', function () {
 
-    // if(Gate::allows('delete-user')){
-    //     return redirect(route('admin.'));
-    // }
+    $product = Product::find('2');
 
-    // return 'no';
-        // auth()->loginUsingId(1);
-        // return 'yes';
-    // $rules = Rule::find(1);
-    // return $rules->permissions;
+    return get_class($product);
 
-    Auth::loginUsingid(28);
+
+
+    auth()->user()->comments()->create([
+
+        'comment' =>"this is a comment daood" ,
+        'commentable_id' => $product->id,
+        'commentable_type' => get_class($product)
+    ]);
+
+
+    return $product;
+
 });
 
 Auth::routes(['verify' => true]);

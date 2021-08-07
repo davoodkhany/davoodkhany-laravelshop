@@ -22,11 +22,11 @@ class CreateCommentsTable extends Migration
 
             $table->unsignedBigInteger('commentable_id');
 
-        $table->string('commentable_type');
-        $table->unsignedInteger('parent_id')->default(0);
+            $table->string('commentable_type');
+            $table->unsignedInteger('parent_id')->default(0);
 
-        $table->boolean('approved')->default(0);
-        $table->text('comment');
+            $table->boolean('approved')->default(0);
+            $table->text('comment');
             $table->timestamps();
         });
     }
