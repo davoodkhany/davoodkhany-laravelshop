@@ -1,5 +1,6 @@
 <?php
 
+use App\Comment;
 use App\Permission;
 use App\Product;
 use App\Rule;
@@ -12,19 +13,23 @@ Route::get('/', function () {
 
     $product = Product::find('2');
 
-    return get_class($product);
+    // return get_class($product);
 
 
+    // $product->comments()->create([
 
-    auth()->user()->comments()->create([
+    //     'user_id' => auth()->user()->id ,
+    //     'comment' => "this is a comment morteza bajelan" ,
+    // ]);
+    // auth()->user()->comments()->create([
 
-        'comment' =>"this is a comment daood" ,
-        'commentable_id' => $product->id,
-        'commentable_type' => get_class($product)
-    ]);
+    //     'comment' =>"this is a comment daood" ,
+    //     'commentable_id' => $product->id,
+    //     'commentable_type' => get_class($product)
+    // ]);
 
-
-    return $product;
+$comment = Comment::find(1);
+    return $comment->commentable;
 
 });
 
