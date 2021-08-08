@@ -21,6 +21,13 @@
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
 
     <script src = "{{ asset('js/app.js') }}"></script>
+
+    <style>
+
+        h6 > ul{
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
