@@ -24,9 +24,11 @@
 
     <style>
 
-        h6 > ul{
-            margin-top: 20px;
-        }
+    .footer-margin .content{
+        padding-top: 20px! important;
+padding-bottom: none!important;
+    }
+
     </style>
 </head>
 <body>
