@@ -22,14 +22,8 @@
 
     <script src = "{{ asset('js/app.js') }}"></script>
 
-    <style>
+    
 
-    .footer-margin .content{
-        padding-top: 20px! important;
-padding-bottom: none!important;
-    }
-
-    </style>
 </head>
 <body>
     <div id="app">

@@ -37,9 +37,13 @@ class HomeController extends Controller
 
        auth()->user()->comments()->create($validateData);
 
-       alert()->success('کامنت مورد نظر با موفقیت ثبت شد.');
 
-       return back();
+        return response()->json([
+            'status' => 'success',
+        ]);
+    //    alert()->success('کامنت مورد نظر با موفقیت ثبت شد.');
+
+    //    return back();
 
     }
 }

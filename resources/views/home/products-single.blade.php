@@ -2,9 +2,55 @@
 
 @section('script')
     <script>
-        $('#sendComment').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
+
+        document.querySelector('#sendCommentForm').addEventListener('submit', function(event){
+          event.preventDefault();
+          let target = event.target;
+
+        //console.log(target.querySelector('input[name="commentable_id"]').value);
+        //  console.log(document.head.querySelector('meta[name="csrf-token"]').content);
+
+
+
+          let data = {
+
+            commentable_id:target.querySelector('input[name="commentable_id"]').value,
+            commentable_type:target.querySelector('input[name="commentable_type"]').value,
+
+            parent_id:target.querySelector('input[name="parent_id"]').value,
+
+            comment:target.querySelector('textarea[name="comment"]').value
+          }
+
+          $.ajaxSetup({
+            headers:{
+                'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+                'Content-Type': 'application/json'
+            }
         })
+
+
+
+          $.ajax({
+
+            type: "POST",
+
+            url:'/comments',
+
+            data:JSON.stringify(data),
+
+            success:function(data){
+                console.log(data);
+            }
+
+          })
+
+
+        //   document.getElementById('#sendComment').style.display=none;
+
+
+
+        });
 
     </script>
 @endsection
@@ -25,7 +71,7 @@
                 </div>
             </div>
         </div>
-        
+
      <div class="row">
         @auth
         <div class="modal fade" id="sendComment">
@@ -37,7 +83,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form method="POST" action="{{ route('comment.send') }}">
+                    <form method="POST" action="{{ route('comment.send') }}" id="sendCommentForm">
                         @csrf
                         <div class="modal-body">
                                 <input type="hidden" name="commentable_id" value="{{ $product->id }}">
