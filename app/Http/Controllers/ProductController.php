@@ -16,7 +16,11 @@ class ProductController extends Controller
 
 
     public function show(Product $product){
-        return view('home.products-single', compact('product'));
+
+        // dd($product->comments);
+        $comments = $product->comments;
+        return view('home.products-single', compact('product','comments'));
+
     }
-    
+
 }
