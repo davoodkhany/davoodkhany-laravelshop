@@ -113,44 +113,46 @@
 
 
 
-           @foreach ($comments as  $comment)
-                @if ($comment->parent_id == 0)
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between">
 
-                       <div class="commenter">
-                           <span>{{ $comment->user->name }}</span>
-                            <span class="text-muted">{{ \Morilog\Jalali\Jalalian::forg($comment->created_at) }}</span>
+    @foreach ($product->comments as  $comment)
+
+
+    @if($comment->parent_id==0)
+
+    <div class="mb-2 card">
+
+        <div class="card-header d-flex justify-content-between">
+               <div class="commenter">
+                   <span>{{ $comment->user->name }}</span>
+                    <span class="text-muted"></span>
+                </div>
+               <span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sendComment" data-id="2" data-type="product">پاسخ به نظر</span>
+             </div>
+
+                <div class="card-body">
+                     محصول زیبایه
+
+                    {{-- <div class="mt-3 card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="commenter">
+                                <span>نام نظردهنده</span>
+                                <span class="text-muted">- دو دقیقه قبل</span>
+                            </div>
                         </div>
 
+                        <div class="card-body">
+                            محصول زیبایه
+                        </div>
+                    </div> --}}
+                    
+                </div>
 
-                       <span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sendComment" data-id="2" data-type="product">پاسخ به نظر</span>
-                     </div>
-
-                    <div class="card-body">
-                       محصول زیبایه
-
-                          <div class="mt-3 card">
-                              <div class="card-header d-flex justify-content-between">
-                                <div class="commenter">
-                                      <span>نام نظردهنده</span>
-                                     <span class="text-muted">- دو دقیقه قبل</span>
-                                   </div>
-                               </div>
-
-                              <div class="card-body">
-                                 محصول زیبایه
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-               </div>
-
-                @endif
-           @endforeach
-
-
+            </div>
 
         </div>
+    </div>
+    @endif
+    @endforeach
+
     </div>
 @endsection
