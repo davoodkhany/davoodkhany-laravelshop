@@ -19,6 +19,8 @@ class ProductController extends Controller
 
         // dd($product->comments);
         // $comments = $product->comments;
+
+        
         return view('home.products-single', compact('product'));
 
     }

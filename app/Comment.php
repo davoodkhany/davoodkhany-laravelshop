@@ -17,6 +17,13 @@ class Comment extends Model
         return $this->morphTo();
     }
 
+    public function Child(){
+        // dd($this->parent_id=$parent_id);
+        return $this->hasMany(Comment::class,'parent_id','id');
+    }
+
+
+
 
 
 }
