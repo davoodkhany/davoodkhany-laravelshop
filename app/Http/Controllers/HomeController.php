@@ -28,6 +28,13 @@ class HomeController extends Controller
 
     public function comment(Request $request){
 
+        if ( !$request->ajax()) {
+            return response()->json([
+                'status' => 'just ajax request'
+            ]);
+        }
+
+
        $validateData = $request->validate([
            'commentable_id' => 'required',
            'commentable_type' => 'required',
@@ -38,12 +45,12 @@ class HomeController extends Controller
        auth()->user()->comments()->create($validateData);
 
 
-        return response()->json([
-            'status' => 'success',
-        ]);
-    //    alert()->success('کامنت مورد نظر با موفقیت ثبت شد.');
+        // return response()->json([
+        //     'status' => 'success',
+        // ]);
+       alert()->success('کامنت مورد نظر با موفقیت ثبت شد.');
 
-    //    return back();
+       return back();
 
     }
 }

@@ -3,17 +3,14 @@
 @section('script')
     <script>
 
-
-
-        $('$sendComment').on('show.bs.modal', function (event) {
+        $('#sendComment').on('show.bs.modal', function (event) {
             console.log(event)
             var button = $(event.relatedTarget)
-            let parent_id = button.data('id')
+            let parent_id = button.data('id');
             console.log(parent_id);
-
+            var modal = $(this)
+            modal.find('input[name="parent_id"]').val(parent_id);
         })
-
-
 
         // document.querySelector('#sendCommentForm').addEventListener('submit', function(event) {
         //     event.preventDefault();
@@ -124,7 +121,7 @@
                 <div class="col">
                     <div class="d-flex align-items-center justify-content-between">
                         <h4 class="mt-4">بخش نظرات</h4>
-                        <span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sendComment" data-id="1"
+                        <span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sendComment" data-id="{{ $product->id }}"
                             data-type="product">ثبت نظر جدید</span>
                     </div>
                 </div>
