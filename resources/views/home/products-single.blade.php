@@ -2,60 +2,73 @@
 
 @section('script')
     <script>
-        document.querySelector('#sendCommentForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            let target = event.target;
-
-            //console.log(target.querySelector('input[name="commentable_id"]').value);
-            //  console.log(document.head.querySelector('meta[name="csrf-token"]').content);
 
 
 
-            let data = {
+        $('$sendComment').on('show.bs.modal', function (event) {
+            console.log(event)
+            var button = $(event.relatedTarget)
+            let parent_id = button.data('id')
+            console.log(parent_id);
 
-                commentable_id: target.querySelector('input[name="commentable_id"]').value,
-                commentable_type: target.querySelector('input[name="commentable_type"]').value,
-
-                parent_id: target.querySelector('input[name="parent_id"]').value,
-
-                comment: target.querySelector('textarea[name="comment"]').value
-            }
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
-                    'Content-Type': 'application/json'
-                }
-            })
+        })
 
 
 
-            $.ajax({
+        // document.querySelector('#sendCommentForm').addEventListener('submit', function(event) {
+        //     event.preventDefault();
+        //     let target = event.target;
 
-                type: "POST",
+        //     //console.log(target.querySelector('input[name="commentable_id"]').value);
+        //     //  console.log(document.head.querySelector('meta[name="csrf-token"]').content);
 
-                url: '/comments',
 
-                data: JSON.stringify(data),
 
-                success: function(data) {
-                    console.log(data);
-                }
+        //     let data = {
 
-            })
+        //         commentable_id: target.querySelector('input[name="commentable_id"]').value,
+        //         commentable_type: target.querySelector('input[name="commentable_type"]').value,
+
+        //         parent_id: target.querySelector('input[name="parent_id"]').value,
+
+        //         comment: target.querySelector('textarea[name="comment"]').value
+        //     }
+
+        //     $.ajaxSetup({
+        //         headers: {
+        //             'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+        //             'Content-Type': 'application/json'
+        //         }
+        //     })
+
+
+
+        //     $.ajax({
+
+        //         type: "POST",
+
+        //         url: '/comments',
+
+        //         data: JSON.stringify(data),
+
+        //         success: function(data) {
+        //             console.log(data);
+        //         }
+
+        //     })
 
 
             //   document.getElementById('#sendComment').style.display=none;
 
 
 
-        });
+        // });
     </script>
 @endsection
 
 @section('content')
 
-    <div class="container">چ
+    <div class="container">
         @guest
             <div class="alert alert-danger">
                 <span>لطفا برای ثبت نظر وارد شوید</span>
@@ -63,7 +76,7 @@
         @endguest
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="card">
+                <div class="mb-3 card">
                     <div class="card-header">
                         {{ $product->title }}
                     </div>
@@ -76,8 +89,9 @@
         </div>
 
 
-        <div class="row">
+        <div class="">
             @auth
+
                 <div class="modal fade" id="sendComment">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -113,8 +127,8 @@
                         <span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sendComment" data-id="1"
                             data-type="product">ثبت نظر جدید</span>
                     </div>
-
-                @endauth
+                </div>
+            @endauth
 
                 @foreach ($product->comments as $comment)
 
@@ -128,12 +142,11 @@
                                     <span class="text-muted"></span>
                                 </div>
                                 <span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sendComment"
-                                    data-id="2" data-type="product">پاسخ به نظر</span>
+                                    data-id="{{ $comment->id }}" data-type="product">پاسخ به نظر</span>
                             </div>
 
                             <div class="card-body">
                                 {{ $comment->comment }}
-
                                 @foreach ($comment->Child as $child)
                                     <div class="mt-3 card">
                                         <div class="card-header d-flex justify-content-between">
@@ -148,14 +161,15 @@
                                     </div>
                                 @endforeach
                             </div>
+
                         </div>
+
                     @endif
                 @endforeach
             </div>
         </div>
 
-
-
     </div>
+
 
 @endsection
