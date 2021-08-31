@@ -28,11 +28,11 @@ class HomeController extends Controller
 
     public function comment(Request $request){
 
-        if ( !$request->ajax()) {
-            return response()->json([
-                'status' => 'just ajax request'
-            ]);
-        }
+        // if ( !$request->ajax()) {
+        //     return response()->json([
+        //         'status' => 'just ajax request'
+        //     ]);
+        // }
 
 
        $validateData = $request->validate([
