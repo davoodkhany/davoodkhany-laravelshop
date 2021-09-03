@@ -18,7 +18,6 @@ class Comment extends Model
     }
 
     public function Child(){
-        // dd($this->parent_id=$parent_id);
         return $this->hasMany(Comment::class,'parent_id','id');
     }
 

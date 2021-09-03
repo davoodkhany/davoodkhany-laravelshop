@@ -64,15 +64,42 @@
 
 @section('content')
 
-    <div class="container">
-        @guest
-            <div class="alert alert-danger">
-                <span>لطفا برای ثبت نظر وارد شوید</span>
+    @auth
+        <div class="modal fade" id="sendComment">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">ارسال نظر</h5>
+                        <button type="button" class="ml-0 mr-auto close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{ route('comment.send') }}" method="post" id="sendCommentForm">
+                        @csrf
+                        <div class="modal-body">
+                                <input type="hidden" name="commentable_id" value="{{ $product->id }}" >
+                                <input type="hidden" name="commentable_type" value="{{ get_class($product) }}">
+                                <input type="hidden" name="parent_id" value="0">
+
+                                <div class="form-group">
+                                    <label for="message-text" class="col-form-label">پیام دیدگاه:</label>
+                                    <textarea name="comment" class="form-control" id="message-text"></textarea>
+                                </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">لغو</button>
+                            <button type="submit" class="btn btn-primary">ارسال نظر</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        @endguest
+        </div>
+    @endauth
+
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="mb-3 card">
+                <div class="card">
                     <div class="card-header">
                         {{ $product->title }}
                     </div>
@@ -83,11 +110,21 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h4 class="mt-4">بخش نظرات</h4>
+                    @auth
+                        <span class="btn btn-sm btn-primary" data-toggle="modal" data-target="#sendComment" data-id="0">ثبت نظر جدید</span>
+                    @endauth
+                </div>
 
-        @include('layouts.comment', ['comments' => $product->comments])
+                @guest
+                    <div class="alert alert-warning">برای ثبت نظر لطفا وارد سایت شوید.</div>
+                @endguest
 
-
-
+                @include('layouts.comment' , ['comments' => $product->comments()->where('parent_id' , 0)->get()])
+            </div>
+        </div>
     </div>
-    
-    @endsection
+@endsection

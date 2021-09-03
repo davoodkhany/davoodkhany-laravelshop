@@ -3,7 +3,7 @@
 
 Route::get('/', function () {
 
-
+    return Morilog\Jalali\Jalalian::now();
 
 });
 
@@ -46,4 +46,7 @@ Route::get('products', 'ProductController@index');
 Route::get('products/{product}', 'ProductController@show');
 
 Route::post('comments', 'HomeController@comment')->name('comment.send');
+
+
+
 
