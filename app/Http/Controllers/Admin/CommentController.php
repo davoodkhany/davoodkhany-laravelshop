@@ -59,8 +59,7 @@ class CommentController extends Controller
      */
     public function edit(Comment $comment)
     {
-
-       return view('admin.comments.edit', compact('comment'));
+        return view('admin.comments.edit', compact('comment'));
     }
 
     /**
@@ -73,8 +72,7 @@ class CommentController extends Controller
 
     public function update(Request $request, Comment $comment)
     {
-
-         $data = $request->validate([
+        $data = $request->validate([
             'comment' => "required"
         ]);
 
@@ -83,7 +81,6 @@ class CommentController extends Controller
         return redirect(route('admin.comments.index'));
 
         alert()->success('نظر شما با موفقیت آپدیت شد.');
-
     }
 
 
@@ -98,5 +95,12 @@ class CommentController extends Controller
         $comment->delete();
         return redirect(route('admin.comments.index'));
         alert()->success('کامنت مورد نظر شما با موفقیت حذف شد');
+    }
+
+    public function noApproved(){
+
+        $comments = Comment::whereApproved(0)->paginate(20);
+        return view('admin.comments.notapproved', compact('comments'));
+
     }
 }
