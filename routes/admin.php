@@ -1,5 +1,6 @@
 <?php
 
+
 Route::get('/', function () {
 return view('admin.index');
 });
@@ -16,4 +17,14 @@ Route::resource('permission', 'PermissionController');
 Route::resource('rule', 'RuleController');
 
 Route::resource('products', 'ProductController')->except(['show']);
+
+
+Route::get('comments/noapproved', 'CommentController@noapproved')->name('comments.noapproved');
+
+Route::resource('comments', 'CommentController');
+
+
+
+
+
 

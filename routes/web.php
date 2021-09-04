@@ -3,7 +3,7 @@
 
 Route::get('/', function () {
 
-    return Morilog\Jalali\Jalalian::now();
+    // return Morilog\Jalali\Jalalian::now();
 
 });
 
