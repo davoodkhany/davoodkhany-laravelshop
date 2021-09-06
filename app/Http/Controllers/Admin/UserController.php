@@ -5,24 +5,22 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Notifications\Admin\CreateUserNotification;
 use App\User;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
     use Notifiable;
 
-
     public function index(Request $request)
     {
-
 
         $users = User::query();
 
         Gate::authorize('list-user');
-        if ($keyword = $request->search){
+        if ($keyword = $request->search) {
 
             $users = User::where('email', 'LIKE', "%$keyword%")->orWhere('email', 'LIKE', "%$keyword%");
 
@@ -33,7 +31,6 @@ class UserController extends Controller
         return view('admin.users.all', compact('users'));
 
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -67,11 +64,11 @@ class UserController extends Controller
 
         // $user->nofify();
 
-        if($request->has('verify')){
+        if ($request->has('verify')) {
             $user->markEmailAsVerified();
         }
 
-        $user->notify(new CreateUserNotification( $password, $data['email']));
+        $user->notify(new CreateUserNotification($password, $data['email']));
 
         return redirect(route('admin.users.index'));
     }
@@ -100,7 +97,7 @@ class UserController extends Controller
         //     abort(403);
         // }
 
-       $this->authorize('edit', $user);
+        $this->authorize('edit', $user);
 
         return view('admin.users.edit', compact('user'));
 
@@ -118,10 +115,10 @@ class UserController extends Controller
         $data = $request->validate([
 
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)]
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
         ]);
 
-        if(! is_null($request->password)){
+        if (!is_null($request->password)) {
 
             $request->validate([
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
@@ -130,10 +127,9 @@ class UserController extends Controller
             $data['password'] = bcrypt($request->password);
         }
 
-         $user->update($data);
+        $user->update($data);
 
-
-        if($request->verify){
+        if ($request->verify) {
             $user->markEmailAsVerified();
         }
 
