@@ -13,12 +13,42 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index( Request $request)
     {
-        $comments = Comment::whereApproved(1)->paginate(10);
+        $comments = Comment::query();
+
+
+        if($keyword = $request->search){
+            $comments = Comment::where('comment','LIKE' , "%$keyword%")->orWhereHas('user' , function($query) use ($keyword){
+                $query->where('name', 'LIKE' , "%$keyword%");
+            });
+        }
+
+
+        $comments = $comments->whereApproved(1)->paginate(10);
         return view('admin.comments.all', compact('comments'));
     }
 
+    public function disapprove()
+    {
+        $comments = Comment::whereApproved(0)->paginate(10);
+        return view('admin.comments.notapproved', compact('comments'));
+    }
+    public function disapproveDelete(Comment $comment){
+
+        $comment->delete();
+
+        return back();
+
+        alert()->success('کامنت مورد نظر حذف شد');
+
+    }
+
+    public function updatedisapprove(Request $request, Comment $comment){
+
+        return $comment;
+
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -97,10 +127,4 @@ class CommentController extends Controller
         alert()->success('کامنت مورد نظر شما با موفقیت حذف شد');
     }
 
-    public function noApproved(){
-
-        $comments = Comment::whereApproved(0)->paginate(20);
-        return view('admin.comments.notapproved', compact('comments'));
-
-    }
 }

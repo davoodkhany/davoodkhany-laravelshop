@@ -19,11 +19,18 @@ Route::resource('rule', 'RuleController');
 Route::resource('products', 'ProductController')->except(['show']);
 
 
-Route::get('comments/noapproved', 'CommentController@noApproved')->name('comments.noapproved');
 
-Route::post('comments/noapproved', 'CommentController@noApprovedUpdate')->name('comments.noApprovedUpdate');
-Route::post('comments/noapproved', 'CommentController@noApprovedUpdate')->name('comments.noApprovedUpdate');
+Route::get('disapprove', 'CommentController@disapprove')->name('comment.disapprove');
+
+Route::patch('disapprove', 'CommentController@updatedisapprove')->name('comment.updatedisapprove');
+
+Route::delete('disapprove', 'CommentController@disapproveDelete');
+
+
+
+
 Route::resource('comments', 'CommentController');
+
 
 
 

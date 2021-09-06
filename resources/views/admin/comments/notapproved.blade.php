@@ -40,13 +40,18 @@
                     <td>{{ $comment->comment }}</td>
 
                     <td class="d-flex">
-                        <form method="post" action="{{ route('admin.comments.destroy', $comment) }}">
+                        <form method="post" action="{{ route('admin.comment.disapprove', $comment->id) }}">
                             @csrf
                             @method('DELETE')
                             <button href="#" class="btn btn-sm btn-danger">حذف</button>
                         </form>
-                        
-                            <a href="{{ route('admin.comments.edit' , $comment) }}" class="btn btn-sm btn-primary">ویرایش</a>
+
+                        <form method="post" action="{{ route('admin.comment.updatedisapprove', $comment) }}">
+                            @csrf
+                            @method('PATCH')
+                            <button href="#" class="btn btn-sm btn-danger">آپدیت</button>
+                        </form>
+
                     </td>
                   </tr>
                 @endforeach
