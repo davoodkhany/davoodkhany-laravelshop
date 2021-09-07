@@ -27,6 +27,8 @@ Route::delete('disapprove', 'CommentController@disapproveDelete');
 
 Route::resource('comments', 'CommentController');
 
+Route::resource('categories', 'CategoryController');
+
 
 
 
