@@ -5,7 +5,7 @@ use App\User;
 
 Route::get('/', function () {
 
-    $products = User::withCount('comments')->whereHas('comments')->get();
+    $products = User::withCount('permissions')->get();
 
     return $products;
 
