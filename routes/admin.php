@@ -19,17 +19,14 @@ Route::resource('rule', 'RuleController');
 Route::resource('products', 'ProductController')->except(['show']);
 
 
-
 Route::get('disapprove', 'CommentController@disapprove')->name('comment.disapprove');
 
 Route::patch('disapprove', 'CommentController@updatedisapprove')->name('comment.updatedisapprove');
 
 Route::delete('disapprove', 'CommentController@disapproveDelete');
 
-
-
-
 Route::resource('comments', 'CommentController');
+
 
 
 

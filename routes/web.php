@@ -1,9 +1,13 @@
 <?php
 
+use App\Product;
+use App\User;
 
 Route::get('/', function () {
 
-    // return Morilog\Jalali\Jalalian::now();
+    $products = User::withCount('comments')->whereHas('comments')->get();
+
+    return $products;
 
 });
 
