@@ -18,6 +18,10 @@
                                 <input type="text" name="search" class="float-right form-control" placeholder="جستجو">
                                 <button type="submit" class="btn btn-default btn-sm"><i class="fa fa-search"></i></button>
                             </form>
+
+                            <div class="input-group-append">
+                                <a  href="{{ route('admin.categories.create') }}" class="mr-4 btn btn-success">ایجاد دسته</a>
+                            </div>
                         </div>
                     </div>
                 </div>

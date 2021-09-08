@@ -26,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.category.create');
     }
 
     /**
@@ -37,7 +37,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required',
+        ]);
+
+        Category::create($data);
+
+        return redirect(route('admin.categories.index'));
+
+        alert()->success('دسته بندی مورد نظر با موفقیت ثبت شد');
+        
     }
 
     /**
