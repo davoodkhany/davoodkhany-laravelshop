@@ -28,7 +28,15 @@
   <!-- bootstrap rtl -->
   <link rel="stylesheet" href="{{ asset('/css/admin.css') }}">
 
+<style>
 
+@media only screen and (max-device-width: 640px){
+    .fusion-builder-row-1 {
+    height: calc(100vh - 32px) !important;
+}
+
+}
+</style>
 
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
