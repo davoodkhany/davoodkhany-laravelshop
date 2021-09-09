@@ -41,12 +41,13 @@ class CategoryController extends Controller
             'name' => 'required',
         ]);
 
+
         Category::create($data);
 
         return redirect(route('admin.categories.index'));
 
         alert()->success('دسته بندی مورد نظر با موفقیت ثبت شد');
-        
+
     }
 
     /**
