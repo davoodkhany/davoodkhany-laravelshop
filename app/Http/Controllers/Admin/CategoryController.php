@@ -67,9 +67,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit( Category $category)
     {
-        //
+        return view('admin.category.edit', compact('category'));
     }
 
     /**
@@ -79,9 +79,15 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required',
+        ]);
+
+        $category->update($data);
+        return redirect(route('admin.categories.index'));
+        alert()->success('دسته بندی مورد نظر با موفقیت ویرایش شد');
     }
 
     /**

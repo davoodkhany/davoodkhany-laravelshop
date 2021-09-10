@@ -14,7 +14,7 @@
                 @include('admin.layouts.errors')
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form class="form-horizontal" method="POST" action="{{ route('admin.categories.store')}}">
+                <form class="form-horizontal" method="POST" action="{{ route('admin.categories.store', $category) }}">
                     @csrf
                   <div class="card-body">
                     <div class="form-group">
