@@ -3,7 +3,11 @@
     @foreach ($categories as $cat)
 
         <li class="list-group-item">{{ $cat->name }}
-            <a class="badge badge-danger" href="">حذف</a>
+            <form action="{{ route('admin.categories.destroy' , $cat->id)  }}" id="cat-{{$cat->id}}-delete" method="post">
+                @csrf
+                @method('delete')
+            </form>
+            <a class="badge badge-danger" href="#" onclick="event.preventDefault(); document.getElementById('cat-{{$cat->id}}-delete').submit()">حذف</a>
             <a class="badge badge-success" href="">ویرایش</a>
             <a class="badge badge-primary" href="">زیر دسته</a>
             @if (($cat->child->count()) > 0)
@@ -12,7 +16,7 @@
         </li>
 
     @endforeach
-    
+
 
 
 
