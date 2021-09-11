@@ -37,12 +37,22 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
+
+        if($request->parent_id){{
+            $request->validate([
+                'parent_id' => 'exists:categories,id'
+            ]);
+         }}
+
+     $request->validate([
             'name' => 'required',
         ]);
 
 
-        Category::create($data);
+        Category::create([
+            'name' => $request->name,
+            'parent_id' => $request ->parent_id ?? 0
+        ]);
 
         return redirect(route('admin.categories.index'));
 
@@ -83,6 +93,7 @@ class CategoryController extends Controller
     {
         $data = $request->validate([
             'name' => 'required',
+            'parent_id' => 'required',
         ]);
 
         $category->update($data);

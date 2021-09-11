@@ -9,7 +9,7 @@
             </form>
             <a class="badge badge-danger" href="#" onclick="event.preventDefault(); document.getElementById('cat-{{$cat->id}}-delete').submit()">حذف</a>
             <a class="badge badge-success" href="{{ route('admin.categories.edit' , $cat) }}">ویرایش</a>
-            <a class="badge badge-primary" href="">زیر دسته</a>
+            <a class="badge badge-primary" href="{{ route('admin.categories.create')}}?parent={{ $cat->id }}">زیر دسته</a>
             @if (($cat->child->count()) > 0)
                 @include('admin.layouts.category', ['categories' => $cat->child])
             @endif

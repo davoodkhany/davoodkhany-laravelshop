@@ -23,6 +23,13 @@
                           <input type="text" name="name" class="form-control" id="inputEmail3" placeholder="نام دسته را وارد کنید" value="{{ $category->name }}">
                       </div>
                   </div>
+                  <div class="form-group">
+                    <select class="form-control" name="parent_id" >
+                        @foreach(\App\Category::all() as $cats)
+                            <option value="{{ $category->id }}" {{$category->id === $cats->id ? 'selected' : ''  }}>{{ $cats->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
                   <!-- /.card-body -->
                   <div class="card-footer">
                     <button type="submit"  class="btn btn-info">ویرایش</button>

@@ -14,7 +14,7 @@
                 @include('admin.layouts.errors')
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form class="form-horizontal" method="POST" action="{{ route('admin.categories.store', $category) }}">
+                <form class="form-horizontal" method="POST" action="{{ route('admin.categories.store') }}">
                     @csrf
                   <div class="card-body">
                     <div class="form-group">
@@ -22,6 +22,17 @@
                           <input type="text" name="name" class="form-control" id="inputEmail3" placeholder="نام دسته را وارد کنید">
                       </div>
                   </div>
+                    @if(request('parent'))
+
+                    @php
+                        $cat = \App\Category::find(request('parent'))
+                    @endphp
+                    <div class="form-group">
+                        <label  class="col-sm-2 control-label">نام</label>
+                          <input type="text" class="form-control" value="{{ $cat->name }}" disabled>
+                          <input type="text" hidden name="parent_id" value="{{ $cat->id }}">
+                      </div>
+                    @endif
                   <!-- /.card-body -->
                   <div class="card-footer">
                     <button type="submit"  class="btn btn-info">ورود</button>
