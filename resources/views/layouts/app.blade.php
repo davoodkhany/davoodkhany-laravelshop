@@ -22,7 +22,7 @@
 
     <script src = "{{ asset('js/app.js') }}"></script>
 
-    
+
 
 </head>
 <body>
@@ -78,6 +78,9 @@
                 </div>
             </div>
         </nav>
+
+
+        @include('layouts.category-list', ['categories' => \App\Category::where('parent_id', 0)->get()])
 
         <main class="py-4">
             @yield('content')
