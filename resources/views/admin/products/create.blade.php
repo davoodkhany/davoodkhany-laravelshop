@@ -13,32 +13,45 @@
                 @include('admin.layouts.errors')
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form class="form-horizontal" method="POST" action="{{ route('admin.products.store')}}">
+                <form class="form-horizontal" method="POST" action="{{ route('admin.products.store') }}">
                     @csrf
-                  <div class="card-body">
-                    <div class="form-group">
-                        <label  class="col-sm-2 control-label">نام</label>
-                          <input type="text" name="title" class="form-control" id="inputEmail3" placeholder="نام محصول را وارد کنید">
-                      </div>
-                    <div class="form-group">
-                      <label for="inputEmail3" class="col-sm-2 control-label">توضحیات محصول</label>
-                      <textarea name="description" class="form-control" id="" ></textarea>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">نام</label>
+                            <input type="text" name="title" class="form-control" id="inputEmail3"
+                                placeholder="نام محصول را وارد کنید">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">توضحیات محصول</label>
+                            <textarea name="description" class="form-control" id=""></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">قیمت محصول</label>
+                            <input type="number" name="price" class="form-control" id="inputPassword3"
+                                placeholder="قیمت  را وارد کنید">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">موجودی</label>
+                            <input type="number" name="inventory" class="form-control" id="inputPassword3"
+                                placeholder="موجودی کل را وارد کنید">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">دسته بندی</label>
+                            <select class="form-control" name="categoreis[]" multiple>
+                                @foreach ($categories as $cat)
+                                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                     </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">قیمت محصول</label>
-                        <input type="number" name="price" class="form-control" id="inputPassword3" placeholder="قیمت  را وارد کنید">
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-info">ثبت محصول</button>
+                        <a type="submit" href="{{ route('admin.products.index') }}"
+                            class="float-left btn btn-default">لغو</a>
                     </div>
-                    <div class="form-group">
-                        <label for="inputPassword3" class="col-sm-2 control-label">موجودی</label>
-                        <input type="number" name="inventory" class="form-control" id="inputPassword3" placeholder="موجودی کل را وارد کنید">
-                    </div>
-                  </div>
-                  <!-- /.card-body -->
-                  <div class="card-footer">
-                    <button type="submit"  class="btn btn-info">ثبت محصول</button>
-                    <a type="submit" href="{{ route('admin.products.index') }}"  class="float-left btn btn-default">لغو</a>
-                  </div>
-                  <!-- /.card-footer -->
+                    <!-- /.card-footer -->
                 </form>
             </div>
         </div>

@@ -19,17 +19,17 @@ class CreateCategoriesTable extends Migration
             $table->integer('parent_id')->default(0);
             $table->timestamps();
         });
-        
+
 
         Schema::create('category_product', function (Blueprint $table) {
 
-            $table->unsignedBigInteger('parent_id');
-            $table->foreign('parent_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->unsignedBigInteger('category_id');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
 
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->ondelete('cascade');
 
-            $table->primary(['parent_id','product_id']);
+            $table->primary(['category_id','product_id']);
         });
     }
 

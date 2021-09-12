@@ -91,6 +91,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+
+
+
+        // if($request->parent_id){{
+        //     $request->validate([
+        //         'parent_id' => 'exists:categories,id'
+        //     ]);
+        //  }}
+
         $data = $request->validate([
             'name' => 'required',
             'parent_id' => 'required',

@@ -26,7 +26,7 @@
                   <div class="form-group">
                     <select class="form-control" name="parent_id" >
                         @foreach(\App\Category::all() as $cats)
-                            <option value="{{ $category->id }}" {{$category->id === $cats->id ? 'selected' : ''  }}>{{ $cats->name }}</option>
+                            <option value="{{ $cats->id }}" {{$category->id === $cats->id ? 'selected' : ''  }}>{{ $cats->name }}</option>
                         @endforeach
                     </select>
                 </div>

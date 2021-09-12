@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
 use App\Http\Controllers\Controller;
 use App\Product;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ class ProductController extends Controller
 
         $products = $products->latest()->paginate(1);
 
+
         return view('admin.products.all', compact('products'));
     }
 
@@ -34,7 +36,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+
+        $categories = Category::all();
+
+        return view('admin.products.create' , compact('categories'));
+
     }
 
     /**
@@ -46,16 +52,18 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-
             'title' => ' required',
             'description' => 'required',
             'price' => ' required',
             'inventory' => ' required',
+
         ]);
 
 
 
-        auth()->user()->products()->create($data);
+        $product = auth()->user()->products()->create($data);
+        $product->categories()->sync($request->categoreis);
+
 
         alert()->success('محصول شما با موفقیت ایجاد شد.');
 
@@ -96,6 +104,8 @@ class ProductController extends Controller
 
 
         auth()->user()->products()->update($data);
+        
+        $product->categories()->sync($request->categoreis);
 
         alert()->success('محصول شما با موفقیت ایجاد شد.');
 
