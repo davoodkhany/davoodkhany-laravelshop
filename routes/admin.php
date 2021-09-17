@@ -36,3 +36,5 @@ Route::resource('categories', 'CategoryController');
 
 
 
+
+
