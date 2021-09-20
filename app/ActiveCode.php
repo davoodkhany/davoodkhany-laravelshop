@@ -3,66 +3,57 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
-
 
 class ActiveCode extends Model
 {
-
-    protected $table = 'active_code';
-
+    protected $fillable = [
+        'user_id',
+        'code',
+        'expired_at'
+    ];
 
     public $timestamps = false;
 
-
-    protected $fillable=['user_id', 'code', 'expire_at'];
-
-    public function user(){
-
+    public function user()
+    {
         return $this->belongsTo(User::class);
-
     }
 
-    public function scopeGenerateCode($query,$user){
-        if ($code = $this->codeAliveCodeForUser($user)) {
-            $code = $code->code;
-        }
-         else
-        {
-            do{
-                $code = mt_rand(100000,999999);
-            }
-            while($this->checkCodeUniqe($user,$code));
+    public function scopeVerifyCode($query , $code,  $user)
+    {
+        return !! $user->activeCode()->whereCode($code)->where('expired_at' , '>' , now())->first();
+    }
 
-            // !! store the code
+    public function scopeGenerateCode($query , $user)
+    {
+//        if($code = $this->getAliveCodeForUser($user)) {
+//            $code = $code->code;
+//        } else {
+//
+//        }
 
-            $user->activeCode()->create([
-                'code' => $code,
-                'expire_at' => now()->addMinutes(10)
-            ]);
-        }
+        $user->activeCode()->delete();
+
+        do {
+            $code = mt_rand(100000, 999999);
+        } while($this->checkCodeIsUnique($user , $code));
+
+        // store the code
+        $user->activeCode()->create([
+            'code' => $code,
+            'expired_at' => now()->addMinutes(10)
+        ]);
+
         return $code;
     }
 
-
-
-    public function scopeVerifyCode($query, $code,$user){
-
-        return !! $user->activecode()->whereCode($code)->where('expire_at', '>', now())->first();
-    }
-
-
-
-
-    public function checkCodeUniqe($user, int $code){
-
+    private function checkCodeIsUnique($user, int $code)
+    {
         return !! $user->activeCode()->whereCode($code)->first();
     }
 
-    public function codeAliveCodeForUser($user){
-
-        return $user->activecode()->where('expire_at', '>' , now())->first();
-
+    private function getAliveCodeForUser($user)
+    {
+        return $user->activeCode()->where('expired_at' , '>' , now())->first();
     }
-
 }

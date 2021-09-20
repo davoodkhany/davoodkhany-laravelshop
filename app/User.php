@@ -2,11 +2,11 @@
 
 namespace App;
 
-use Illuminate\Auth\Notifications\ResetPassword;
+use App\Notifications\ResetPassword as ResetPasswordNotification;
+use App\Notifications\VerifyEmail as VerifyEmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Notifications\EmailVerifiedNotification;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -18,7 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','phone','tow_factor_auth','is_supperuser','is_staff'
+        'name', 'email', 'password','two_factor_type' , 'phone_number' , 'is_superuser' , 'is_staff'
     ];
 
     /**
@@ -39,7 +39,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-        /**
+    /**
      * Send the password reset notification.
      *
      * @param  string  $token
@@ -47,58 +47,81 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new ResetPassword($token));
+        $this->notify(new ResetPasswordNotification($token));
     }
 
-  /**
+    /**
      * Send the email verification notification.
      *
      * @return void
      */
     public function sendEmailVerificationNotification()
     {
-        $this->notify(new EmailVerifiedNotification);
+        $this->notify(new VerifyEmailNotification);
     }
 
-
-    public function activecode(){
-
-        return $this->hasMany(ActiveCode::class);
+    public function setPasswordAttribute($value)
+    {
+       $this->attributes['password'] = bcrypt($value);
     }
 
-    public function isSupperUser(){
-        return $this->is_supperuser;
+    public function isSuperUser()
+    {
+        return $this->is_superuser;
     }
 
-    public function isStaffUser(){
+    public function isStaffUser()
+    {
         return $this->is_staff;
     }
 
-    public function rules(){
-        return $this->belongsToMany(Rule::class);
+    public function activeCode()
+    {
+        return $this->hasMany(ActiveCode::class);
     }
 
-    public function permissions(){
+    public function hasTwoFactor($key)
+    {
+        return $this->two_factor_type == $key;
+    }
+
+    public function hasTwoFactorAuthenticatedEnabled()
+    {
+        return $this->two_factor_type !== 'off';
+    }
+
+    public function hasSmsTwoFactorAuthenticationEnabled()
+    {
+        return $this->two_factor_type == 'sms';
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function permissions()
+    {
         return $this->belongsToMany(Permission::class);
     }
 
-    public function hasRule($rules)
+    public function hasRole($roles)
     {
-        return !! $rules->intersect($this->rules)->all();
+        return !! $roles->intersect($this->roles)->all();
     }
 
     public function hasPermission($permission)
     {
-        return $this->permissions->contains('name' , $permission->name) || $this->hasRule($permission->rules);
+        return $this->permissions->contains('name' , $permission->name) || $this->hasRole($permission->roles);
     }
 
-
-    public function products(){
+    public function products()
+    {
         return $this->hasMany(Product::class);
     }
 
-    public function comments(){
+    public function comments()
+    {
         return $this->hasMany(Comment::class);
     }
-
 }

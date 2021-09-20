@@ -6,24 +6,33 @@ use App\Http\Controllers\Controller;
 use App\Permission;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PermissionController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:show-permissions')->only(['index']);
+        $this->middleware('can:create-permission')->only(['create' , 'store']);
+        $this->middleware('can:edit-permission')->only(['edit' , 'update']);
+        $this->middleware('can:delete-permission')->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $permissions = Permission::query();
 
-        if($keyword = $request->search){
-            $permissions = Permission::where('label', "LIKE" , "%$keyword%")->orWhere('name', 'LIKE', "%$keyword%");
+        if($keyword = request('search')) {
+            $permissions->where('name' , 'LIKE' , "%{$keyword}%")->orWhere('label' , 'LIKE' , "%{$keyword}%" );
         }
 
-        $permissions = $permissions->latest()->paginate(10);
-        return view('admin.permissions.all', compact('permissions'));
+        $permissions = $permissions->latest()->paginate(20);
+        return view('admin.permissions.all' , compact('permissions'));
     }
 
     /**
@@ -33,7 +42,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-     return view('admin.permissions.create');
+        return view('admin.permissions.create');
     }
 
     /**
@@ -45,16 +54,15 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|unique:permissions|max:255',
-            'label' => 'required|max:255'
+            'name' => ['required', 'string', 'max:255', 'unique:permissions'],
+            'label' => ['required', 'string', 'max:255'],
         ]);
 
         Permission::create($data);
 
-        alert()->success('دسترسی مورد نظر با موفقیت اضافه شد.');
+        alert()->success('مطلب مورد نظر شما با موفقیت ایجاد شد');
 
-        return redirect(route('admin.permission.index'));
-
+        return redirect(route('admin.permissions.index'));
     }
 
     /**
@@ -76,7 +84,7 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
-        return view('admin.permissions.edit', compact('permission'));
+        return view('admin.permissions.edit' , compact('permission'));
     }
 
     /**
@@ -88,18 +96,15 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-
         $data = $request->validate([
-            'name' => 'required|unique:permissions|max:255',
-            'label' => 'required|max:255'
+            'name' => ['required', 'string', 'max:255' , Rule::unique('permissions')->ignore($permission->id)],
+            'label' => ['required', 'string',  'max:255'],
         ]);
 
         $permission->update($data);
 
-        alert()->success('دسترسی مورد نظر با موفقیت ویرایش شد.');
-        
-        return redirect(route('admin.permission.index'));
-
+        alert()->success('مطلب مورد نظر شما با موفقیت ویرایش شد');
+        return redirect(route('admin.permissions.index'));
     }
 
     /**
@@ -111,7 +116,7 @@ class PermissionController extends Controller
     public function destroy(Permission $permission)
     {
         $permission->delete();
-
+        alert()->success('مطلب مورد نظر شما با موفقیت حذف شد');
         return back();
     }
 }

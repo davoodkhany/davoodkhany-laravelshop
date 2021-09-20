@@ -7,8 +7,8 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
-        <script src="{{ asset('/js/app.js') }}"></script>
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+
         <!-- Styles -->
         <style>
             html, body {
@@ -61,25 +61,6 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
-
-
-            .boxing
-            {
-                border-radius: 10px !important;
-                box-shadow: 5px -5px 5px #7bb97b!important;
-            }
-
-            .boxing .avia_message_box_title{
-                display: flex !important;
-                font-size: 17px !important;
-                font-weight: bolder !important;
-                color: crimson !important;
-            }
-            .boxing .avia_message_box_content {
-                margin-top: 20px !important;
-            }
-
-
         </style>
     </head>
     <body>
@@ -97,8 +78,25 @@
                     @endauth
                 </div>
             @endif
-        </div>
 
-        @include('sweet::alert')
+            <div class="content">
+                <div class="title m-b-md">
+                    Laravel
+                </div>
+
+                <div class="links">
+                    <a href="https://laravel.com/docs">Docs</a>
+                    <a href="https://laracasts.com">Laracasts</a>
+                    <a href="https://laravel-news.com">News</a>
+                    <a href="https://blog.laravel.com">Blog</a>
+                    <a href="https://nova.laravel.com">Nova</a>
+                    <a href="https://forge.laravel.com">Forge</a>
+                    <a href="https://vapor.laravel.com">Vapor</a>
+                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                </div>
+            </div>
+        </div>
     </body>
+    <script src="{{ asset('/js/app.js') }}"></script>
+    @include('sweet::alert')
 </html>

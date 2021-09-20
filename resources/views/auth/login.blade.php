@@ -1,6 +1,5 @@
 @extends('layouts.app')
 
-
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -9,12 +8,9 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <div class="col-md-12">
-                        <a class="ml-5 btn btn-info" href="{{ route('auth.google') }}">Google Login</a>
-                        <a class="btn btn-info " href="{{ route('auth.git') }}">Git Login</a>
-
+                    <div class="col-md-8 offset-md-4 mb-3">
+                        <a href="{{ route('auth.google') }}" class="btn btn-danger">Login With Google</a>
                     </div>
-
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
@@ -46,11 +42,14 @@
                             </div>
                         </div>
 
-                        <div class="form-group offset-4">
-                            <x-recaptcha></x-recaptcha>
+                        <div class="form-group col-md-8 offset-md-4 mb-3">
+                            <x-recaptcha :has-error="$errors->has('g-recaptcha-response')" />
 
-
-
+                            @error('g-recaptcha-response')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <div class="form-group row">
@@ -65,7 +64,7 @@
                             </div>
                         </div>
 
-                        <div class="mb-0 form-group row">
+                        <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}
@@ -85,5 +84,3 @@
     </div>
 </div>
 @endsection
-
-

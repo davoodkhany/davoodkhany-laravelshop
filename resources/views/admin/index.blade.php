@@ -1,12 +1,8 @@
-@component('admin.layouts.content', ['title' => 'پنل مدیریت'])
-
-
+@component('admin.layouts.content' , ['title' => 'پنل مدیریت'])
     @slot('breadcrumb')
-            {{-- <li class="breadcrumb-item">Home<a href="#"></a></li>
-            <li class="breadcrumb-item">Library<a href="#"></a></li> --}}
-            <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+        <li class="breadcrumb-item active">پنل مدیریت</li>
     @endslot
 
-    <h2>kslfsdl</h2>
+    <h2>Admin Panel</h2>
 
 @endcomponent

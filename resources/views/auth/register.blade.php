@@ -1,39 +1,4 @@
 @extends('layouts.app')
-@section('content')
-<form  method="post">
-    @csrf
-    <input type="text" name="name">
-    <input type="text" name="email" @error('email') is-invalid @enderror>
-    @error('email')
-        <span role="alert" class="invalid-feedback" >
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
-    <input type="password" name="password">
-    @error('password')
-        <span role="alert" class="invalid-feedback">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
-    <input name="password_confirmation" type="password">
-    @error('password_confirmation')
-        <span role="alert" class="invalid-feedback">
-            <strong>{{ $message }}</strong>
-        </span>
-    @enderror
-    <button type="submit">Submit</button>
-</form>
-
-@endsection
-
-
-
-
-
-
-
-
-{{-- @extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -96,7 +61,17 @@
                             </div>
                         </div>
 
-                        <div class="mb-0 form-group row">
+                        <div class="form-group col-md-8 offset-md-4 mb-3">
+                            @recaptcha
+
+                            @error('g-recaptcha-response')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
@@ -109,4 +84,4 @@
         </div>
     </div>
 </div>
-@endsection --}}
+@endsection

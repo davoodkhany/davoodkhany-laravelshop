@@ -4,13 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\ActiveCode;
 use App\Http\Controllers\Controller;
-use App\Notifications\LoginToWebsiteNotification;
 use App\Providers\RouteServiceProvider;
 use App\Rules\Recaptcha;
-use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-;
 
 class LoginController extends Controller
 {
@@ -25,7 +22,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers , TowFactorAuthenticate;
+    use AuthenticatesUsers , TwoFactorAuthenticate;
 
     /**
      * Where to redirect users after login.
@@ -44,26 +41,27 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    protected function authenticated(Request $request, User $user)
+    protected function authenticated(Request $request, $user)
     {
-        if($user->tow_factor_auth=='sms'){
-            return $this->logedin($request, $user);
-        }
-
-        $user->notify(new LoginToWebsiteNotification());
-
+        return $this->loggendin($request , $user);
     }
 
-
+    /**
+     * Validate the user login request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
     protected function validateLogin(Request $request)
     {
         $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
-            'g-recaptcha-response' => ['required', new Recaptcha]
+            'g-recaptcha-response' => ['required' , new Recaptcha]
+        ],[
+            'g-recaptcha-response.required' => 'لطفا روی من ربات نیستم کلیک کنید'
         ]);
     }
-
-
-
 }

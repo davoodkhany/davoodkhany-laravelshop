@@ -1,5 +1,5 @@
-@extends('profile.layouts')
+@extends('profile.layout')
 
 @section('main')
-    <h3>Your profile</h3>
+    <h4>Your Profile</h4>
 @endsection

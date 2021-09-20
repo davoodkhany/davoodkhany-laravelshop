@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\FooService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth','verified']);
+        $this->middleware(['auth' , 'verified']);
     }
 
     /**
@@ -26,31 +27,27 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function comment(Request $request){
+    public function comment(Request $request)
+    {
+//        if(! $request->ajax()) {
+//            return response()->json([
+//                'status' => 'just ajax request'
+//            ]);
+//        }
 
-        // if ( !$request->ajax()) {
-        //     return response()->json([
-        //         'status' => 'just ajax request'
-        //     ]);
-        // }
+        $validData = $request->validate([
+            'commentable_id' => 'required',
+            'commentable_type' => 'required',
+            'parent_id' => 'required',
+            'comment' => 'required'
+        ]);
 
-
-       $validateData = $request->validate([
-           'commentable_id' => 'required',
-           'commentable_type' => 'required',
-           'parent_id' => 'required',
-           'comment' => ' required'
-       ]);
-
-       auth()->user()->comments()->create($validateData);
-
-
-        // return response()->json([
-        //     'status' => 'success',
-        // ]);
-       alert()->success('کامنت مورد نظر با موفقیت ثبت شد.');
-
-       return back();
-
+        auth()->user()->comments()->create($validData);
+//
+//        return response()->json([
+//           'status' => 'success'
+//        ]);
+        alert()->success('نظر با موفقیت ثبت شد');
+        return back();
     }
 }

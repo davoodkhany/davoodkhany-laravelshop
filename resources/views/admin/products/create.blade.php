@@ -7,7 +7,7 @@
 
     @slot('script')
         <script>
-
+            
             $('#categories').select2({
                 'placeholder' : 'دسترسی مورد نظر را انتخاب کنید'
             })
@@ -79,7 +79,6 @@
             }
 
             $('#add_product_attribute').click(function() {
-                console.log('davood ');
                 let attributesSection = $('#attribute_section');
                 let id = attributesSection.children().length;
 

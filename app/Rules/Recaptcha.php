@@ -2,7 +2,6 @@
 
 namespace App\Rules;
 
-use GuzzleHttp\Client;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Http;
 
@@ -21,27 +20,24 @@ class Recaptcha implements Rule
     /**
      * Determine if the validation rule passes.
      *
-     * @param  string  $attribute
-     * @param  mixed  $value
+     * @param string $attribute
+     * @param mixed $value
      * @return bool
+     * @throws \Illuminate\Http\Client\RequestException
      */
     public function passes($attribute, $value)
     {
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify' , [
+            'secret' => env('GOOGLE_RECAPTCHA_SECRET_KEY'),
+            'response' => $value,
+            'remoteip' => request()->ip()
+        ]);
 
+        $response->throw();
 
+        $response = $response->json();
 
-            $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify',[
-                'secret' => '6LfW_CcbAAAAAD4k2WMrLxdRZhPwLqQTskcTHBAJ',
-                'response' => $value,
-                'remoteip' => request()->ip()
-            ]);
-
-            return $response['success'];
-
-            $response->throw();
-
-
-
+        return $response['success'];
     }
 
     /**
@@ -51,6 +47,6 @@ class Recaptcha implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'شما به عنوان ربات تشخیص داده شده اید';
     }
 }

@@ -15,8 +15,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::where('parent_id', 0)->paginate(10);
-        return view('admin.category.index', compact('categories'));
+        $categories = Category::where('parent' , 0)->latest()->paginate(10);
+        return view('admin.categories.all' , compact('categories'));
     }
 
     /**
@@ -26,7 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.category.create');
+        return view('admin.categories.create');
     }
 
     /**
@@ -37,38 +37,23 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-
-        if($request->parent_id){{
+        if($request->parent) {
             $request->validate([
-                'parent_id' => 'exists:categories,id'
+               'parent' => 'exists:categories,id'
             ]);
-         }}
+        }
 
-     $request->validate([
-            'name' => 'required',
+        $request->validate([
+            'name' => 'required|min:3'
         ]);
-
 
         Category::create([
             'name' => $request->name,
-            'parent_id' => $request ->parent_id ?? 0
+            'parent' => $request->parent ?? 0
         ]);
 
+        alert()->success('دسته مورد نظر ثبت شد');
         return redirect(route('admin.categories.index'));
-
-        alert()->success('دسته بندی مورد نظر با موفقیت ثبت شد');
-
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -77,9 +62,9 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit( Category $category)
+    public function edit(Category $category)
     {
-        return view('admin.category.edit', compact('category'));
+        return view('admin.categories.edit' , compact('category'));
     }
 
     /**
@@ -91,23 +76,23 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        if($request->parent) {
+            $request->validate([
+                'parent' => 'exists:categories,id'
+            ]);
+        }
 
-
-
-        // if($request->parent_id){{
-        //     $request->validate([
-        //         'parent_id' => 'exists:categories,id'
-        //     ]);
-        //  }}
-
-        $data = $request->validate([
-            'name' => 'required',
-            'parent_id' => 'required',
+        $request->validate([
+            'name' => 'required|min:3'
         ]);
 
-        $category->update($data);
+        $category->update([
+            'name' => $request->name,
+            'parent' => $request->parent
+        ]);
+
+        alert()->success('دسته مورد نظر ویرایش شد');
         return redirect(route('admin.categories.index'));
-        alert()->success('دسته بندی مورد نظر با موفقیت ویرایش شد');
     }
 
     /**
@@ -120,7 +105,7 @@ class CategoryController extends Controller
     {
         $category->delete();
 
+        alert()->success('دسته مورد نظر حذف شد');
         return back();
-        alert()->success('کامنت مورد نظر با موفقیت حذف شد');
     }
 }

@@ -6,28 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['title' , 'description' , 'price' , 'view_count', 'inventory' ];
+    protected $fillable = [
+        'title' , 'description' , 'price' , 'inventory' , 'view_count'
+    ];
 
-
-
-    public function users(){
-        return $this->belongsTo(User::class);
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
-
-    public function comments(){
-      return   $this->morphMany(Comment::class, 'commentable');
-    }
-
-
-    public function categories(){
+    public function categories()
+    {
         return $this->belongsToMany(Category::class);
     }
 
-    public function attributes(){
+    public function attributes()
+    {
         return $this->belongsToMany(Attribute::class);
     }
-
-
-
 }

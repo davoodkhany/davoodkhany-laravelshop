@@ -13,83 +13,25 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index( Request $request)
+    public function index()
+    {
+        $comments = Comment::whereApproved(1)->latest()->paginate(20);
+        return view('admin.comments.all' , compact('comments'));
+    }
+
+    public function unapproved()
     {
         $comments = Comment::query();
 
-
-        if($keyword = $request->search){
-            $comments = Comment::where('comment','LIKE' , "%$keyword%")->orWhereHas('user' , function($query) use ($keyword){
-                $query->where('name', 'LIKE' , "%$keyword%");
+        if($keyword = request('search')) {
+            $comments->where('comment' , 'LIKE' , "%{$keyword}%")->orWhereHas('user' , function($query) use ($keyword) {
+                $query->where('name' , 'LIKE' , "%{$keyword}%");
             });
         }
 
+        $comments = $comments->whereApproved(0)->latest()->paginate(20);
+        return view('admin.comments.unapproved' , compact('comments'));
 
-        $comments = $comments->whereApproved(1)->paginate(10);
-        return view('admin.comments.all', compact('comments'));
-    }
-
-    public function disapprove()
-    {
-        $comments = Comment::whereApproved(0)->paginate(10);
-        return view('admin.comments.notapproved', compact('comments'));
-    }
-    public function disapproveDelete(Comment $comment){
-
-        $comment->delete();
-
-        return back();
-
-        alert()->success('کامنت مورد نظر حذف شد');
-
-    }
-
-    public function updatedisapprove(Request $request, Comment $comment){
-
-        return $comment;
-
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Comment $comment)
-    {
-        return view('admin.comments.edit', compact('comment'));
     }
 
     /**
@@ -99,20 +41,13 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-
     public function update(Request $request, Comment $comment)
     {
-        $data = $request->validate([
-            'comment' => "required"
-        ]);
+        $comment->update([ 'approved' => 1]);
 
-        $comment->update($data);
-
-        return redirect(route('admin.comments.index'));
-
-        alert()->success('نظر شما با موفقیت آپدیت شد.');
+        alert()->success('نظر مورد نظر تایید شد');
+        return back();
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -123,8 +58,8 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         $comment->delete();
-        return redirect(route('admin.comments.index'));
-        alert()->success('کامنت مورد نظر شما با موفقیت حذف شد');
-    }
+        alert()->success('نظر شما با موفقیت حذف شد');
 
+        return back();
+    }
 }

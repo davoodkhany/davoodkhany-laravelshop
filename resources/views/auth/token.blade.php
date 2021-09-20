@@ -1,22 +1,34 @@
-@extends('profile.layouts')
+@extends('layouts.app')
 
-    @section('main')
-        <h5>Two Factor Auth</h5>
-        <hr>
-        <form class="form" method="post" action="{{ route('2fa.token') }}">
-            @csrf
-            <div class="form-group">
-                <label for="">token</label>
-                <input class="form-control @error('token') is-invalid @enderror" type="text" name="token">
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        Two Factor Auth
+                    </div>
 
-                @error('token')
-                    <p class="invalid-feedback">{{ $message }}</p>
-                    @enderror
+                    <div class="card-body">
+                        <form action="{{ route('2fa.token') }}" method="POST">
+                            @csrf
+
+                            <div class="form-group">
+                                <label for="token" class="col-form-label">Token</label>
+                                <input type="text" class="form-control @error('token') is-invalid @enderror" name="token" placeholder="enter your token">
+                                @error('token')
+                                   <span class="invalid-feedback">
+                                       <strong>{{ $message }}</strong>
+                                   </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary">Validate token</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-
-            <div class="form-group">
-                <button class="btn btn-primary"type="submit">Verify</button>
-            </div>
-        </form>
-
-    @endsection
+        </div>
+    </div>
+@endsection

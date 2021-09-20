@@ -29,22 +29,14 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-
-
-        Gate::before(function($user){
-            if($user->is_supperuser == 1) return true;
+        Gate::before(function($user) {
+           if($user->isSuperUser()) return true;
         });
-
-        // if( $user->is_supperuser == 1){
-        //     return true;
-        // }
-
 
         foreach (Permission::all() as $permission) {
             Gate::define($permission->name , function($user) use ($permission){
                 return $user->hasPermission($permission);
             });
         }
-
     }
 }

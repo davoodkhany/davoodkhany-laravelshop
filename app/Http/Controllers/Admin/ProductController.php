@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Category;
 use App\Http\Controllers\Controller;
 use App\Product;
 use Illuminate\Http\Request;
@@ -14,19 +13,16 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $products = Product::query();
 
-        if($keword = $request->search){
-
-            $products = Product::where('title','LIKE',"%$keword%")->orWhere('id','LIKE',"%$keword%");
+        if($keyword = request('search')) {
+            $products->where('title' , 'LIKE' , "%{$keyword}%")->orWhere('id' , 'LIKE' , "%{$keyword}%" );
         }
 
-        $products = $products->latest()->paginate(1);
-
-
-        return view('admin.products.all', compact('products'));
+        $products = $products->latest()->paginate(20);
+        return view('admin.products.all' , compact('products'));
     }
 
     /**
@@ -36,11 +32,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-
-        $categories = Category::all();
-
-        return view('admin.products.create' , compact('categories'));
-
+        return view('admin.products.create');
     }
 
     /**
@@ -51,27 +43,20 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'title' => ' required',
+        $validData = $request->validate([
+            'title' => 'required',
             'description' => 'required',
-            'price' => ' required',
-            'inventory' => ' required',
-
+            'price' => 'required',
+            'inventory' => 'required',
+            'categories' => 'required'
         ]);
 
+        $product = auth()->user()->products()->create($validData);
+        $product->categories()->sync($validData['categories']);
 
-
-        $product = auth()->user()->products()->create($data);
-        $product->categories()->sync($request->categoreis);
-
-
-        alert()->success('محصول شما با موفقیت ایجاد شد.');
-
+        alert()->success('محصول مورد نظر با موفقیت ثبت شد' , 'با تشکر');
         return redirect(route('admin.products.index'));
-
     }
-
-
 
     /**
      * Show the form for editing the specified resource.
@@ -81,7 +66,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('admin.products.edit', compact('product'));
+        return view('admin.products.edit' , compact('product'));
     }
 
     /**
@@ -93,24 +78,19 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-
-        $data = $request->validate([
-
-            'title' => ' required',
+        $validData = $request->validate([
+            'title' => 'required',
             'description' => 'required',
-            'price' => ' required',
-            'inventory' => ' required',
+            'price' => 'required',
+            'inventory' => 'required',
+            'categories' => 'required'
         ]);
 
+        $product->update($validData);
+        $product->categories()->sync($validData['categories']);
 
-        auth()->user()->products()->update($data);
-        
-        $product->categories()->sync($request->categoreis);
-
-        alert()->success('محصول شما با موفقیت ایجاد شد.');
-
+        alert()->success('محصول مورد نظر با موفقیت ویرایش شد' , 'با تشکر');
         return redirect(route('admin.products.index'));
-
     }
 
     /**
@@ -123,7 +103,7 @@ class ProductController extends Controller
     {
         $product->delete();
 
+        alert()->success('محصول مورد نظر با موفقیت حذف شد' , 'با تشکر');
         return back();
-
     }
 }

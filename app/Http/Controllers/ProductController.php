@@ -9,20 +9,12 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::latest()->paginate(20);
-
-        return view('home.products', compact('products'));
+        $products = Product::latest()->paginate(12);
+        return view('home.products' , compact('products'));
     }
 
-
-    public function show(Product $product){
-
-        // dd($product->comments);
-        // $comments = $product->comments;
-
-        
-        return view('home.products-single', compact('product'));
-
+    public function single(Product $product)
+    {
+        return view('home.single-product' , compact('product'));
     }
-
 }

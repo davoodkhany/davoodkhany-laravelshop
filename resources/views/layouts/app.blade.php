@@ -9,25 +9,18 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('/js/app.js') }}" defer></script>
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
-
     <!-- Styles -->
-    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
-
-    <script src = "{{ asset('js/app.js') }}"></script>
-
-
+    <link href="https://cdn.rawgit.com/rastikerdar/vazir-font/v21.2.1/dist/font-face.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
 </head>
 <body>
     <div id="app">
-        <nav class="bg-white shadow-sm navbar navbar-expand-md navbar-light">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -38,12 +31,12 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="mr-auto navbar-nav">
+                    <ul class="navbar-nav mr-auto">
 
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="mr-auto navbar-nav">
+                    <ul class="navbar-nav mr-auto">
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
@@ -59,9 +52,9 @@
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
-                                <a href="{{ url('/profile') }}" class="dropdown-item">profile</a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ url('/profile') }}">Profile</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -78,15 +71,14 @@
                 </div>
             </div>
         </nav>
-
-
-        @include('layouts.category-list', ['categories' => \App\Category::where('parent_id', 0)->get()])
-
+        @include('layouts.list-categories' , ['categories' => \App\Category::where('parent_id' , 0)->get()])
         <main class="py-4">
             @yield('content')
         </main>
     </div>
-    @include('sweet::alert')
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
     @yield('script')
+    @include('sweet::alert')
 </body>
 </html>

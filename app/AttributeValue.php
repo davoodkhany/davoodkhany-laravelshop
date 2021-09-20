@@ -8,9 +8,8 @@ class AttributeValue extends Model
 {
     protected $fillable = ['value'];
 
-
-    public function attribute(){
+    public function attribute()
+    {
         return $this->belongsTo(Attribute::class);
     }
-
 }
